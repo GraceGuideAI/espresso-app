@@ -74,220 +74,154 @@
           </header>
 
           <form id="recipes-form" autocomplete="off">
-            <div class="form-block">
-              <div class="form-label">Machine Type</div>
-              <div
-                class="pill-group segmented-control segmented-control--triple"
-                role="radiogroup"
-                aria-label="Machine Type"
-              >
-                <input
-                  class="pill-input"
-                  type="radio"
-                  name="machine-type"
-                  id="machine-type-semi"
-                  value="semi-auto"
-                  checked
-                />
-                <label class="pill-option" for="machine-type-semi">
-                  <span>Semi-Auto</span>
-                </label>
+  <div class="setup-progress" aria-hidden="true">
+    <span class="progress-dot is-active"></span>
+    <span class="progress-dot"></span>
+    <span class="progress-dot"></span>
+  </div>
 
-                <input
-                  class="pill-input"
-                  type="radio"
-                  name="machine-type"
-                  id="machine-type-automatic"
-                  value="automatic"
-                />
-                <label class="pill-option" for="machine-type-automatic">
-                  <span>Automatic</span>
-                </label>
+  <section class="setup-section" data-section="equipment">
+    <button type="button" class="section-header" aria-expanded="false">
+      <span>Your Equipment</span>
+      <span class="chevron">⌄</span>
+    </button>
+    <div class="section-content">
+      <div class="form-block">
+        <div class="form-label">Machine Type</div>
+        <div class="pill-group segmented-control segmented-control--triple" role="radiogroup" aria-label="Machine Type">
+          <input class="pill-input" type="radio" name="machine-type" id="machine-type-semi" value="semi-auto" checked />
+          <label class="pill-option" for="machine-type-semi"><span>Semi-Auto</span></label>
+          <input class="pill-input" type="radio" name="machine-type" id="machine-type-automatic" value="automatic" />
+          <label class="pill-option" for="machine-type-automatic"><span>Automatic</span></label>
+          <input class="pill-input" type="radio" name="machine-type" id="machine-type-super" value="super-auto" />
+          <label class="pill-option" for="machine-type-super"><span>Super-Automatic</span></label>
+        </div>
+        <div class="helper-text">Optional: pick your exact machine model below.</div>
+        <label class="select-inline">
+          <span class="field-label">Machine Model</span>
+          <select id="recipe-machine">
+            <option value="Semi-Auto (Generic)" selected>Semi-Auto (Generic)</option>
+            <option value="Automatic (Generic)">Automatic (Generic)</option>
+            <option value="Super-Auto (Generic)">Super-Auto (Generic)</option>
+            <option value="DeLonghi Magnifica Evo (non-LatteCrema version)">DeLonghi Magnifica Evo (non-LatteCrema version)</option>
+            <option value="Breville Bambino">Breville Bambino</option>
+            <option value="Gaggia Classic Pro">Gaggia Classic Pro</option>
+            <option value="Lelit Anna">Lelit Anna</option>
+            <option value="Rancilio Silvia">Rancilio Silvia</option>
+            <option value="Smeg Semi-Pro">Smeg Semi-Pro</option>
+            <option value="Lelit MaraX">Lelit MaraX</option>
+            <option value="Rocket Appartamento">Rocket Appartamento</option>
+            <option value="Miele CM6360">Miele CM6360</option>
+            <option value="La Marzocco Linea Mini">La Marzocco Linea Mini</option>
+          </select>
+        </label>
+      </div>
 
-                <input
-                  class="pill-input"
-                  type="radio"
-                  name="machine-type"
-                  id="machine-type-super"
-                  value="super-auto"
-                />
-                <label class="pill-option" for="machine-type-super">
-                  <span>Super-Automatic</span>
-                </label>
-              </div>
-              <div class="helper-text">Optional: pick your exact machine model below.</div>
-              <label class="select-inline">
-                <span class="field-label">Machine Model</span>
-                <select id="recipe-machine">
-                  <option value="Semi-Auto (Generic)" selected>Semi-Auto (Generic)</option>
-                  <option value="Automatic (Generic)">Automatic (Generic)</option>
-                  <option value="Super-Auto (Generic)">Super-Auto (Generic)</option>
-                  <option value="DeLonghi Magnifica Evo (non-LatteCrema version)">DeLonghi Magnifica Evo (non-LatteCrema version)</option>
-                  <option value="Breville Bambino">Breville Bambino</option>
-                  <option value="Gaggia Classic Pro">Gaggia Classic Pro</option>
-                  <option value="Lelit Anna">Lelit Anna</option>
-                  <option value="Rancilio Silvia">Rancilio Silvia</option>
-                  <option value="Smeg Semi-Pro">Smeg Semi-Pro</option>
-                  <option value="Lelit MaraX">Lelit MaraX</option>
-                  <option value="Rocket Appartamento">Rocket Appartamento</option>
-                  <option value="Miele CM6360">Miele CM6360</option>
-                  <option value="La Marzocco Linea Mini">La Marzocco Linea Mini</option>
-                </select>
-              </label>
-            </div>
+      <div class="form-block">
+        <div class="form-label">Grinder Type</div>
+        <div class="pill-group segmented-control segmented-control--triple" role="radiogroup" aria-label="Grinder Type">
+          <input class="pill-input" type="radio" name="grinder-type" id="grinder-type-burr" value="burr" checked />
+          <label class="pill-option" for="grinder-type-burr"><span>Burr Grinder</span></label>
+          <input class="pill-input" type="radio" name="grinder-type" id="grinder-type-built-in" value="built-in" />
+          <label class="pill-option" for="grinder-type-built-in"><span>Built-In</span></label>
+          <input class="pill-input" type="radio" name="grinder-type" id="grinder-type-preground" value="preground" />
+          <label class="pill-option" for="grinder-type-preground"><span>Pre-Ground</span></label>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            <div class="form-block">
-              <div class="form-label">Grinder Type</div>
-              <div
-                class="pill-group segmented-control segmented-control--triple"
-                role="radiogroup"
-                aria-label="Grinder Type"
-              >
-                <input
-                  class="pill-input"
-                  type="radio"
-                  name="grinder-type"
-                  id="grinder-type-burr"
-                  value="burr"
-                  checked
-                />
-                <label class="pill-option" for="grinder-type-burr">
-                  <span>Burr Grinder</span>
-                </label>
+  <section class="setup-section" data-section="beans">
+    <button type="button" class="section-header" aria-expanded="false">
+      <span>Your Beans</span>
+      <span class="chevron">⌄</span>
+    </button>
+    <div class="section-content">
+      <div class="form-block">
+        <div class="form-label">Roast Level</div>
+        <div class="pill-group segmented-control segmented-control--triple" role="radiogroup" aria-label="Roast Level">
+          <input class="pill-input" type="radio" name="roast-level" id="roast-light" value="light" />
+          <label class="pill-option" for="roast-light"><span>Light</span></label>
+          <input class="pill-input" type="radio" name="roast-level" id="roast-medium" value="medium" checked />
+          <label class="pill-option" for="roast-medium"><span>Medium</span></label>
+          <input class="pill-input" type="radio" name="roast-level" id="roast-dark" value="dark" />
+          <label class="pill-option" for="roast-dark"><span>Dark</span></label>
+        </div>
+      </div>
 
-                <input
-                  class="pill-input"
-                  type="radio"
-                  name="grinder-type"
-                  id="grinder-type-built-in"
-                  value="built-in"
-                />
-                <label class="pill-option" for="grinder-type-built-in">
-                  <span>Built-In</span>
-                </label>
+      <div class="form-block">
+        <div class="form-label">Grind Range</div>
+        <div class="pill-group segmented-control segmented-control--triple" role="radiogroup" aria-label="Grind Range">
+          <input class="pill-input" type="radio" name="grind-range" id="grind-fine" value="fine" checked />
+          <label class="pill-option" for="grind-fine"><span>Fine</span></label>
+          <input class="pill-input" type="radio" name="grind-range" id="grind-medium" value="medium" />
+          <label class="pill-option" for="grind-medium"><span>Medium</span></label>
+          <input class="pill-input" type="radio" name="grind-range" id="grind-coarse" value="coarse" />
+          <label class="pill-option" for="grind-coarse"><span>Coarse</span></label>
+        </div>
+      </div>
 
-                <input
-                  class="pill-input"
-                  type="radio"
-                  name="grinder-type"
-                  id="grinder-type-preground"
-                  value="preground"
-                />
-                <label class="pill-option" for="grinder-type-preground">
-                  <span>Pre-Ground</span>
-                </label>
-              </div>
-            </div>
-            </div>
+      <div class="form-block">
+        <div class="form-label">Bean Freshness</div>
+        <div class="pill-group segmented-control segmented-control--triple" role="radiogroup" aria-label="Bean Freshness">
+          <input class="pill-input" type="radio" name="bean-freshness" id="freshness-fresh" value="0-7" checked />
+          <label class="pill-option" for="freshness-fresh"><span>0–7 days</span></label>
+          <input class="pill-input" type="radio" name="bean-freshness" id="freshness-rested" value="7-21" />
+          <label class="pill-option" for="freshness-rested"><span>1–3 weeks</span></label>
+          <input class="pill-input" type="radio" name="bean-freshness" id="freshness-old" value="21+" />
+          <label class="pill-option" for="freshness-old"><span>1+ month</span></label>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            <div class="form-block">
-              <div class="form-label">Milk Frothing</div>
-              <div class="pill-group segmented-control" role="radiogroup" aria-label="Milk Frothing">
-                <input
-                  class="pill-input"
-                  type="radio"
-                  name="milk-frothing"
-                  id="milk-frothing-steam"
-                  value="steam"
-                  checked
-                />
-                <label class="pill-option" for="milk-frothing-steam">
-                  <span>Steam Wand</span>
-                </label>
+  <section class="setup-section" data-section="water-milk">
+    <button type="button" class="section-header" aria-expanded="false">
+      <span>Your Water & Milk</span>
+      <span class="chevron">⌄</span>
+    </button>
+    <div class="section-content">
+      <div class="form-block">
+        <div class="form-label">Water Type</div>
+        <div class="pill-group segmented-control segmented-control--triple" role="radiogroup" aria-label="Water Type">
+          <input class="pill-input" type="radio" name="water-type" id="water-filtered" value="filtered" checked />
+          <label class="pill-option" for="water-filtered"><span>Filtered</span></label>
+          <input class="pill-input" type="radio" name="water-type" id="water-tap" value="tap" />
+          <label class="pill-option" for="water-tap"><span>Tap</span></label>
+          <input class="pill-input" type="radio" name="water-type" id="water-bottled" value="bottled" />
+          <label class="pill-option" for="water-bottled"><span>Bottled</span></label>
+        </div>
+      </div>
 
-                <input
-                  class="pill-input"
-                  type="radio"
-                  name="milk-frothing"
-                  id="milk-frothing-frother"
-                  value="frother"
-                />
-                <label class="pill-option" for="milk-frothing-frother">
-                  <span>Frother</span>
-                </label>
+      <div class="form-block">
+        <div class="form-label">Milk Frothing</div>
+        <div class="pill-group segmented-control" role="radiogroup" aria-label="Milk Frothing">
+          <input class="pill-input" type="radio" name="milk-frothing" id="milk-frothing-steam" value="steam" checked />
+          <label class="pill-option" for="milk-frothing-steam"><span>Steam Wand</span></label>
+          <input class="pill-input" type="radio" name="milk-frothing" id="milk-frothing-frother" value="frother" />
+          <label class="pill-option" for="milk-frothing-frother"><span>Frother</span></label>
+          <input class="pill-input" type="radio" name="milk-frothing" id="milk-frothing-none" value="none" />
+          <label class="pill-option" for="milk-frothing-none">None</label>
+        </div>
+      </div>
 
-                <input
-                  class="pill-input"
-                  type="radio"
-                  name="milk-frothing"
-                  id="milk-frothing-none"
-                  value="none"
-                />
-                <label class="pill-option" for="milk-frothing-none">None</label>
-              </div>
-            </div>
+      <div class="form-block">
+        <div class="form-label">Latte Art</div>
+        <label class="toggle" for="latte-art">
+          <span>Include latte art steps</span>
+          <input id="latte-art" type="checkbox" />
+          <span class="toggle-slider" aria-hidden="true"></span>
+        </label>
+      </div>
+    </div>
+  </section>
 
-
-            <div class="form-block">
-              <div class="form-label">Roast Level</div>
-              <div class="pill-group segmented-control segmented-control--triple" role="radiogroup" aria-label="Roast Level">
-                <input class="pill-input" type="radio" name="roast-level" id="roast-light" value="light" />
-                <label class="pill-option" for="roast-light"><span>Light</span></label>
-
-                <input class="pill-input" type="radio" name="roast-level" id="roast-medium" value="medium" checked />
-                <label class="pill-option" for="roast-medium"><span>Medium</span></label>
-
-                <input class="pill-input" type="radio" name="roast-level" id="roast-dark" value="dark" />
-                <label class="pill-option" for="roast-dark"><span>Dark</span></label>
-              </div>
-            </div>
-
-            <div class="form-block">
-              <div class="form-label">Grind Range</div>
-              <div class="pill-group segmented-control segmented-control--triple" role="radiogroup" aria-label="Grind Range">
-                <input class="pill-input" type="radio" name="grind-range" id="grind-fine" value="fine" checked />
-                <label class="pill-option" for="grind-fine"><span>Fine</span></label>
-
-                <input class="pill-input" type="radio" name="grind-range" id="grind-medium" value="medium" />
-                <label class="pill-option" for="grind-medium"><span>Medium</span></label>
-
-                <input class="pill-input" type="radio" name="grind-range" id="grind-coarse" value="coarse" />
-                <label class="pill-option" for="grind-coarse"><span>Coarse</span></label>
-              </div>
-            </div>
-
-            <div class="form-block">
-              <div class="form-label">Bean Freshness</div>
-              <div class="pill-group segmented-control segmented-control--triple" role="radiogroup" aria-label="Bean Freshness">
-                <input class="pill-input" type="radio" name="bean-freshness" id="freshness-fresh" value="0-7" checked />
-                <label class="pill-option" for="freshness-fresh"><span>0–7 days</span></label>
-
-                <input class="pill-input" type="radio" name="bean-freshness" id="freshness-rested" value="7-21" />
-                <label class="pill-option" for="freshness-rested"><span>1–3 weeks</span></label>
-
-                <input class="pill-input" type="radio" name="bean-freshness" id="freshness-old" value="21+" />
-                <label class="pill-option" for="freshness-old"><span>1+ month</span></label>
-              </div>
-            </div>
-
-            <div class="form-block">
-              <div class="form-label">Water Type</div>
-              <div class="pill-group segmented-control segmented-control--triple" role="radiogroup" aria-label="Water Type">
-                <input class="pill-input" type="radio" name="water-type" id="water-filtered" value="filtered" checked />
-                <label class="pill-option" for="water-filtered"><span>Filtered</span></label>
-
-                <input class="pill-input" type="radio" name="water-type" id="water-tap" value="tap" />
-                <label class="pill-option" for="water-tap"><span>Tap</span></label>
-
-                <input class="pill-input" type="radio" name="water-type" id="water-bottled" value="bottled" />
-                <label class="pill-option" for="water-bottled"><span>Bottled</span></label>
-              </div>
-            </div>
-            <div class="form-block">
-              <div class="form-label">Latte Art</div>
-              <label class="toggle" for="latte-art">
-                <span>Include latte art steps</span>
-                <input id="latte-art" type="checkbox" />
-                <span class="toggle-slider" aria-hidden="true"></span>
-              </label>
-            </div>
-
-            <div class="actions">
-              <button type="button" id="generate-drinks" class="cta-button">
-                Next: Get Recipes
-              </button>
-            </div>
-          </form>
+  <div class="actions">
+    <button type="button" id="generate-drinks" class="cta-button">
+      Next: Get Recipes
+    </button>
+  </div>
+</form>
         </section>
 
         <section class="card" aria-labelledby="drinks-title">

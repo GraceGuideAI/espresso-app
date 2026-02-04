@@ -1415,3 +1415,59 @@ form#recipes-form {
 .actions {
   width: 100%;
 }
+
+
+.setup-progress {
+  display: flex;
+  gap: 6px;
+  margin: 6px 0 16px;
+  justify-content: center;
+}
+
+.progress-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(93, 64, 55, 0.2);
+}
+
+.progress-dot.is-active {
+  background: rgba(93, 64, 55, 0.7);
+}
+
+.setup-section {
+  border: 1px solid rgba(0,0,0,0.04);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fffdfb;
+}
+
+.section-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border: none;
+  background: #fffdfb;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.section-header .chevron {
+  transition: transform 0.2s ease;
+}
+
+.setup-section .section-content {
+  display: none;
+  padding: 12px 16px 16px;
+}
+
+.setup-section.is-open .section-content {
+  display: block;
+}
+
+.setup-section.is-open .chevron {
+  transform: rotate(180deg);
+}

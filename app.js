@@ -18,6 +18,9 @@ const drinksStatus = document.getElementById("drinks-status");
 const drinksGrid = document.getElementById("drinks-grid");
 const recipeDetail = document.getElementById("recipe-detail");
 const recipeTitle = document.getElementById("recipe-title");
+
+const setupSections = Array.from(document.querySelectorAll('.setup-section'));
+const progressDots = Array.from(document.querySelectorAll('.progress-dot'));
 const recipeSummary = document.getElementById("recipe-summary");
 const recipeSteps = document.getElementById("recipe-steps");
 
@@ -616,3 +619,27 @@ if (recipeMachineSelect) {
     milkFrothingInputs.forEach((input) => (input.checked = input.value === profile.milk));
   });
 }
+
+
+const updateProgress = () => {
+  const total = setupSections.length || 1;
+  const openCount = setupSections.filter((section) => section.classList.contains('is-open')).length;
+  const activeIndex = Math.min(total - 1, Math.max(0, openCount - 1));
+  progressDots.forEach((dot, index) => {
+    dot.classList.toggle('is-active', index <= activeIndex);
+  });
+};
+
+setupSections.forEach((section) => {
+  const header = section.querySelector('.section-header');
+  const content = section.querySelector('.section-content');
+  if (header && content) {
+    header.addEventListener('click', () => {
+      const isOpen = section.classList.toggle('is-open');
+      header.setAttribute('aria-expanded', String(isOpen));
+      updateProgress();
+    });
+  }
+});
+
+updateProgress();
