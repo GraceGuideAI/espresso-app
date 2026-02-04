@@ -54,23 +54,31 @@
               <div class="setup-title-row">
                 <h1 id="setup-title">What's your setup?</h1>
                 <span class="setup-icon" aria-hidden="true">
-                  <svg viewBox="0 0 120 120" role="img">
-                    <defs>
-                      <linearGradient id="cupGradient" x1="0" x2="1">
-                        <stop offset="0%" stop-color="#f3dcc6" />
-                        <stop offset="100%" stop-color="#c7a07c" />
-                      </linearGradient>
-                      <linearGradient id="saucerGradient" x1="0" x2="1">
-                        <stop offset="0%" stop-color="#f7e7d7" />
-                        <stop offset="100%" stop-color="#e2c4a7" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M26 54h54c0 20-11 34-27 34S26 74 26 54z" fill="url(#cupGradient)" />
-                    <path d="M76 58h12c8 0 14 6 14 14s-6 14-14 14H74" fill="none" stroke="#c7a07c" stroke-width="7" stroke-linecap="round" />
-                    <rect x="20" y="88" width="64" height="9" rx="4.5" fill="url(#saucerGradient)" />
-                    <path class="steam" d="M38 40c6-8 6-16 0-24" />
-                    <path class="steam" d="M60 40c6-8 6-16 0-24" />
-                    <path class="steam" d="M82 40c6-8 6-16 0-24" />
+                  <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+                    <path
+                      d="M14 30h28c0 10-6 18-14 18s-14-8-14-18z"
+                      fill="none"
+                      stroke="#A1A1A6"
+                      stroke-width="2.2"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M42 32h6c4 0 7 3 7 7s-3 7-7 7h-6"
+                      fill="none"
+                      stroke="#A1A1A6"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M12 50h36"
+                      fill="none"
+                      stroke="#A1A1A6"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                    />
+                    <path class="steam steam-1" d="M22 24c2-3 2-6 0-9" />
+                    <path class="steam steam-2" d="M32 22c2-3 2-6 0-9" />
+                    <path class="steam steam-3" d="M42 24c2-3 2-6 0-9" />
                   </svg>
                 </span>
               </div>
@@ -83,7 +91,7 @@
           <form id="recipes-form" autocomplete="off">
             <div class="form-block">
               <div class="form-label">Machine Type</div>
-              <div class="pill-group" role="radiogroup" aria-label="Machine Type">
+              <div class="pill-group pill-group--triple" role="radiogroup" aria-label="Machine Type">
                 <input
                   class="pill-input"
                   type="radio"
@@ -154,7 +162,7 @@
 
             <div class="form-block">
               <div class="form-label">Grinder Type</div>
-              <div class="pill-group" role="radiogroup" aria-label="Grinder Type">
+              <div class="pill-group pill-group--triple" role="radiogroup" aria-label="Grinder Type">
                 <input
                   class="pill-input"
                   type="radio"
@@ -213,18 +221,20 @@
             <div class="form-block">
               <div class="form-label">Filter Basket Size</div>
               <div class="slider-row">
-                <input
-                  id="basket-size"
-                  class="slider"
-                  type="range"
-                  min="14"
-                  max="22"
-                  step="1"
-                  value="18"
-                />
+                <div class="slider-control">
+                  <input
+                    id="basket-size"
+                    class="slider"
+                    type="range"
+                    min="14"
+                    max="22"
+                    step="1"
+                    value="18"
+                  />
+                  <span class="slider-value"><output id="basket-size-output">18</output> g</span>
+                </div>
                 <div class="slider-meta">
                   <span>Single 14g</span>
-                  <span class="slider-value"><output id="basket-size-output">18</output> g</span>
                   <span>Double 22g</span>
                 </div>
               </div>
@@ -279,8 +289,8 @@
                 <label class="pill-option pill-icon-only" for="milk-frothing-none" aria-label="No milk">
                   <span class="pill-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                      <circle cx="12" cy="12" r="7"></circle>
-                      <path d="M8 8l8 8"></path>
+                      <path d="M7 7l10 10"></path>
+                      <path d="M17 7l-10 10"></path>
                     </svg>
                   </span>
                 </label>
@@ -289,9 +299,10 @@
 
             <div class="form-block">
               <div class="form-label">Latte Art</div>
-              <label class="checkbox" for="latte-art">
+              <label class="toggle" for="latte-art">
                 <span>Include latte art steps</span>
                 <input id="latte-art" type="checkbox" />
+                <span class="toggle-slider" aria-hidden="true"></span>
               </label>
             </div>
 
