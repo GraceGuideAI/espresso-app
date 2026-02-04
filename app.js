@@ -18,6 +18,7 @@ const drinksStatus = document.getElementById("drinks-status");
 const drinksGrid = document.getElementById("drinks-grid");
 const recipeDetail = document.getElementById("recipe-detail");
 const recipeTitle = document.getElementById("recipe-title");
+const recipeOutput = document.querySelector(".recipe-output");
 
 const setupSections = Array.from(document.querySelectorAll('.setup-section'));
 const progressDots = Array.from(document.querySelectorAll('.progress-dot'));
@@ -41,6 +42,9 @@ const brewingTitle = document.getElementById("brewing-title");
 const brewingText = document.getElementById("brewing-text");
 const brewingProgress = document.getElementById("brewing-progress");
 const brewingIcon = document.getElementById("brewing-icon");
+
+const segmentedControls = Array.from(document.querySelectorAll(".segmented-control"));
+let segmentHighlightTimer = null;
 
 const machineTypeInputs = Array.from(document.querySelectorAll('input[name="machine-type"]'));
 const grinderTypeInputs = Array.from(document.querySelectorAll('input[name="grinder-type"]'));
@@ -126,6 +130,29 @@ const formatOz = (value, suffix = "fl oz") => {
 };
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+const updateSegmentHighlight = (control) => {
+  if (!control) return;
+  let highlight = control.querySelector(".segmented-highlight");
+  if (!highlight) {
+    highlight = document.createElement("span");
+    highlight.className = "segmented-highlight";
+    control.insertBefore(highlight, control.firstChild);
+  }
+
+  const checked = control.querySelector("input:checked + .pill-option");
+  if (!checked) return;
+  const controlRect = control.getBoundingClientRect();
+  const optionRect = checked.getBoundingClientRect();
+  const left = optionRect.left - controlRect.left;
+
+  highlight.style.width = `${optionRect.width}px`;
+  highlight.style.transform = `translateX(${left}px)`;
+};
+
+const initSegmentHighlights = () => {
+  segmentedControls.forEach((control) => updateSegmentHighlight(control));
+};
 
 const parseDoseFromBeanType = (beanType) => {
   if (!beanType) return null;
@@ -402,7 +429,20 @@ const setActiveView = (viewId) => {
     view.setAttribute("aria-hidden", String(!isActive));
   });
 
-  viewLinks.forEach((link) => {
+  segmentedControls.forEach((control) => {
+  control.querySelectorAll("input").forEach((input) => {
+    input.addEventListener("change", () => updateSegmentHighlight(control));
+  });
+});
+
+window.addEventListener("resize", () => {
+  clearTimeout(segmentHighlightTimer);
+  segmentHighlightTimer = setTimeout(initSegmentHighlights, 120);
+});
+
+initSegmentHighlights();
+
+viewLinks.forEach((link) => {
     link.classList.toggle("is-active", link.dataset.viewTarget === viewId);
   });
 
@@ -550,6 +590,7 @@ const resetRecipeSummary = () => {
   if (summaryYieldRing) summaryYieldRing.style.setProperty("--progress", "0.12");
   if (summaryTimeRing) summaryTimeRing.style.setProperty("--progress", "0.12");
   if (startBrewingButton) startBrewingButton.disabled = true;
+  if (recipeOutput) recipeOutput.classList.remove("is-ready");
 };
 
 const renderRecipe = (recipe, drink) => {
@@ -582,12 +623,18 @@ const renderRecipe = (recipe, drink) => {
   setRingProgress(summaryYieldRing, yieldGrams, 50);
   setRingProgress(summaryTimeRing, timeValue, 35);
 
+  if (recipeOutput) {
+    recipeOutput.classList.remove("is-ready");
+    requestAnimationFrame(() => recipeOutput.classList.add("is-ready"));
+  }
+
   recipeSteps.innerHTML = "";
   brewingSteps = recipe.steps || [];
   brewingStepIndex = 0;
   brewingSteps.forEach((step, index) => {
     const li = document.createElement("li");
     li.className = "recipe-step-card";
+    li.style.setProperty("--step-index", index);
     const icon = document.createElement("div");
     icon.className = "step-icon";
     icon.innerHTML = getStepIconMarkup(step, index);
@@ -741,6 +788,7 @@ const handleDrinkClick = async (event) => {
   recipeTitle.textContent = drink.name;
   recipeSummary.textContent = "Generating your recipe...";
   resetRecipeSummary();
+  if (recipeOutput) recipeOutput.classList.remove("is-ready");
   recipeSteps.innerHTML = `
     <li class="recipe-step-card is-loading">
       <div class="step-icon"></div>
@@ -755,6 +803,7 @@ const handleDrinkClick = async (event) => {
   const previousText = actionButton?.textContent;
   if (actionButton) {
     actionButton.disabled = true;
+    actionButton.classList.add("is-loading");
     actionButton.textContent = "Brewing...";
   }
 
@@ -830,6 +879,19 @@ if (brewingNext) {
     renderBrewingStep();
   });
 }
+
+segmentedControls.forEach((control) => {
+  control.querySelectorAll("input").forEach((input) => {
+    input.addEventListener("change", () => updateSegmentHighlight(control));
+  });
+});
+
+window.addEventListener("resize", () => {
+  clearTimeout(segmentHighlightTimer);
+  segmentHighlightTimer = setTimeout(initSegmentHighlights, 120);
+});
+
+initSegmentHighlights();
 
 viewLinks.forEach((link) => {
   link.addEventListener("click", () => {
