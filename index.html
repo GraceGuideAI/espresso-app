@@ -66,14 +66,18 @@
           </div>
 
           <div class="actions" role="group" aria-label="Form actions">
-            <button type="button" id="reset">Reset</button>
-            <button type="button" id="share">Share</button>
+            <button type="button" id="get-guidance">Get Guidance</button>
+            <button type="button" id="reset" disabled>Reset</button>
+            <button type="button" id="share" disabled>Share</button>
           </div>
         </form>
       </section>
 
-      <section class="card" id="output-card" aria-labelledby="guidance-title">
+      <section class="card is-hidden" id="output-card" aria-labelledby="guidance-title" aria-hidden="true">
         <h2 id="guidance-title">Guidance</h2>
+        <p class="helper-text">
+          Guidance is based on your brew ratio (yield / dose) and shot time vs the 1:2, 25-30s target.
+        </p>
         <ul id="guidance"></ul>
         <div class="next-adjustment" id="next-adjustment"></div>
       </section>

@@ -1,8 +1,10 @@
 const form = document.getElementById("dialin-form");
 const guidanceList = document.getElementById("guidance");
 const nextAdjustment = document.getElementById("next-adjustment");
+const getGuidanceButton = document.getElementById("get-guidance");
 const resetButton = document.getElementById("reset");
 const shareButton = document.getElementById("share");
+const outputCard = document.getElementById("output-card");
 
 const defaults = {
   machine: "Breville Bambino",
@@ -120,6 +122,18 @@ const renderGuidance = () => {
   nextAdjustment.textContent = getNextAdjustment({ ratio, time: values.time });
 };
 
+const setGuidanceVisibility = (isVisible) => {
+  outputCard.classList.toggle("is-hidden", !isVisible);
+  outputCard.setAttribute("aria-hidden", String(!isVisible));
+  resetButton.disabled = !isVisible;
+  shareButton.disabled = !isVisible;
+};
+
+const handleGetGuidance = () => {
+  renderGuidance();
+  setGuidanceVisibility(true);
+};
+
 const resetForm = () => {
   fields.machine.value = defaults.machine;
   fields.basket.value = defaults.basket;
@@ -128,10 +142,11 @@ const resetForm = () => {
   fields.time.value = defaults.time;
   fields.roast.value = defaults.roast;
   fields.grinder.value = defaults.grinder;
-  renderGuidance();
+  setGuidanceVisibility(false);
 };
 
 const shareSummary = async () => {
+  if (shareButton.disabled) return;
   const values = getValues();
   const ratio = values.yield / values.dose;
   const summary = [
@@ -161,8 +176,8 @@ const shareSummary = async () => {
   }
 };
 
-form.addEventListener("input", renderGuidance);
+getGuidanceButton.addEventListener("click", handleGetGuidance);
 resetButton.addEventListener("click", resetForm);
 shareButton.addEventListener("click", shareSummary);
 
-resetForm();
+setGuidanceVisibility(false);
