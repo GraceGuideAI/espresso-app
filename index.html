@@ -81,6 +81,69 @@
         <ul id="guidance"></ul>
         <div class="next-adjustment" id="next-adjustment"></div>
       </section>
+
+      <section class="card" aria-labelledby="recipes-title">
+        <h2 id="recipes-title">AI Recipe Maker</h2>
+        <p class="helper-text">
+          Generate personalized drink recipes based on your setup and beans.
+        </p>
+        <form id="recipes-form" autocomplete="off">
+          <div class="grid">
+            <label>
+              Machine
+              <select id="recipe-machine">
+                <option value="Breville Bambino" selected>Breville Bambino</option>
+                <option value="Breville Barista Express">Breville Barista Express</option>
+                <option value="Gaggia Classic">Gaggia Classic</option>
+                <option value="Rancilio Silvia">Rancilio Silvia</option>
+                <option value="DeLonghi Magnifica Evo (non-LatteCrema)">
+                  DeLonghi Magnifica Evo (non-LatteCrema)
+                </option>
+              </select>
+            </label>
+
+            <label>
+              Grinder
+              <input id="recipe-grinder" type="text" value="Baratza Encore ESP" />
+            </label>
+
+            <label>
+              Milk capability
+              <select id="recipe-milk-capability">
+                <option value="steam wand" selected>Steam wand</option>
+                <option value="auto milk">Auto milk</option>
+                <option value="no milk">No milk</option>
+              </select>
+            </label>
+
+            <label>
+              Bean type
+              <input id="recipe-bean-type" type="text" value="Single origin" />
+            </label>
+
+            <label>
+              Roast level
+              <select id="recipe-roast">
+                <option value="light">Light</option>
+                <option value="medium" selected>Medium</option>
+                <option value="dark">Dark</option>
+              </select>
+            </label>
+
+            <label class="checkbox">
+              <span>Latte art focus</span>
+              <input id="recipe-latte-art" type="checkbox" />
+            </label>
+          </div>
+
+          <div class="actions" role="group" aria-label="Recipe actions">
+            <button type="button" id="generate-recipes">Generate Recipes</button>
+          </div>
+        </form>
+
+        <div class="recipe-status is-hidden" id="recipes-status" aria-live="polite"></div>
+        <div class="recipe-grid" id="recipes-output" aria-live="polite"></div>
+      </section>
     </main>
 
     <script src="app.js"></script>

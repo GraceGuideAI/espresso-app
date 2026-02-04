@@ -78,6 +78,24 @@ label {
   gap: 8px;
 }
 
+label.checkbox {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  gap: 12px;
+}
+
+label.checkbox input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
 input,
 select {
   padding: 11px 12px;
@@ -174,6 +192,49 @@ button:focus-visible {
   font-weight: 600;
 }
 
+.recipe-status {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg-strong);
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.recipe-card {
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: #fffaf6;
+  padding: 16px;
+  box-shadow: var(--shadow-soft);
+}
+
+.recipe-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.02rem;
+}
+
+.recipe-meta {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.recipe-steps {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.9rem;
+}
+
 @media (max-width: 720px) {
   main.container {
     margin: 20px auto 40px;
@@ -214,6 +275,10 @@ button:focus-visible {
 
   .actions button + button {
     margin-left: 12px;
+  }
+
+  label.checkbox {
+    justify-content: space-between;
   }
 }
 

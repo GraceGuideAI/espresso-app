@@ -5,6 +5,10 @@ const getGuidanceButton = document.getElementById("get-guidance");
 const resetButton = document.getElementById("reset");
 const shareButton = document.getElementById("share");
 const outputCard = document.getElementById("output-card");
+const recipesForm = document.getElementById("recipes-form");
+const generateRecipesButton = document.getElementById("generate-recipes");
+const recipesStatus = document.getElementById("recipes-status");
+const recipesOutput = document.getElementById("recipes-output");
 
 const defaults = {
   machine: "Breville Bambino",
@@ -26,6 +30,15 @@ const fields = {
   grinder: document.getElementById("grinder"),
 };
 
+const recipeFields = {
+  machine: document.getElementById("recipe-machine"),
+  grinder: document.getElementById("recipe-grinder"),
+  milkCapability: document.getElementById("recipe-milk-capability"),
+  beanType: document.getElementById("recipe-bean-type"),
+  roast: document.getElementById("recipe-roast"),
+  latteArt: document.getElementById("recipe-latte-art"),
+};
+
 const target = {
   ratio: 2.0,
   timeMin: 25,
@@ -45,6 +58,15 @@ const getValues = () => ({
   time: Number(fields.time.value),
   roast: fields.roast.value,
   grinder: fields.grinder.value,
+});
+
+const getRecipeValues = () => ({
+  machine: recipeFields.machine.value,
+  grinder: recipeFields.grinder.value.trim(),
+  milkCapability: recipeFields.milkCapability.value,
+  beanType: recipeFields.beanType.value.trim(),
+  roast: recipeFields.roast.value,
+  latteArt: recipeFields.latteArt.checked,
 });
 
 const getGrindGuidance = ({ ratio, time }) => {
@@ -176,8 +198,103 @@ const shareSummary = async () => {
   }
 };
 
+const latteArtSteps = [
+  "Purge the steam wand and wipe clean.",
+  "Create glossy microfoam with fine bubbles.",
+  "Swirl and tap the pitcher to polish the milk.",
+  "Start with a higher pour, then lower to draw.",
+  "Finish with a gentle wiggle and lift for shape.",
+];
+
+const setRecipeStatus = (message, isVisible = true) => {
+  recipesStatus.textContent = message;
+  recipesStatus.classList.toggle("is-hidden", !isVisible);
+};
+
+const setRecipesLoading = (isLoading) => {
+  generateRecipesButton.disabled = isLoading;
+  generateRecipesButton.textContent = isLoading
+    ? "Generating..."
+    : "Generate Recipes";
+};
+
+const renderRecipes = (recipes, { latteArt, milkCapability }) => {
+  recipesOutput.innerHTML = "";
+  recipes.forEach((recipe) => {
+    const card = document.createElement("article");
+    card.className = "recipe-card";
+
+    const title = document.createElement("h3");
+    title.textContent = recipe.name || "Recipe";
+
+    const meta = document.createElement("div");
+    meta.className = "recipe-meta";
+    meta.innerHTML = `
+      <div>Dose: ${recipe.dose || "-"} · Yield: ${recipe.yield || "-"}</div>
+      <div>Time: ${recipe.time || "-"} · Milk: ${recipe.milkAmount || "-"}</div>
+      <div>Froth time: ${recipe.frothTime || "-"}</div>
+    `;
+
+    const stepsList = document.createElement("ol");
+    stepsList.className = "recipe-steps";
+    let steps = Array.isArray(recipe.steps) ? recipe.steps : [];
+    const shouldAddLatteArt =
+      latteArt &&
+      milkCapability !== "no milk" &&
+      recipe.milkAmount &&
+      recipe.milkAmount !== "0 ml";
+    if (shouldAddLatteArt) {
+      steps = [...steps, ...latteArtSteps];
+    }
+    steps.forEach((step) => {
+      const li = document.createElement("li");
+      li.textContent = step;
+      stepsList.appendChild(li);
+    });
+
+    card.appendChild(title);
+    card.appendChild(meta);
+    card.appendChild(stepsList);
+    recipesOutput.appendChild(card);
+  });
+};
+
+const handleGenerateRecipes = async () => {
+  const values = getRecipeValues();
+  if (!values.grinder || !values.beanType) {
+    setRecipeStatus("Please fill in grinder and bean type.");
+    return;
+  }
+
+  setRecipesLoading(true);
+  setRecipeStatus("Contacting the recipe barista...");
+  recipesOutput.innerHTML = "";
+
+  try {
+    const response = await fetch("/api/recipes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || "Recipe request failed");
+    }
+
+    const recipes = await response.json();
+    setRecipeStatus(`Generated ${recipes.length} recipes.`);
+    renderRecipes(recipes, values);
+  } catch (error) {
+    setRecipeStatus("Unable to generate recipes. Please try again.");
+  } finally {
+    setRecipesLoading(false);
+  }
+};
+
 getGuidanceButton.addEventListener("click", handleGetGuidance);
 resetButton.addEventListener("click", resetForm);
 shareButton.addEventListener("click", shareSummary);
+generateRecipesButton.addEventListener("click", handleGenerateRecipes);
 
 setGuidanceVisibility(false);
