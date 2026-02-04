@@ -5,10 +5,19 @@ const getGuidanceButton = document.getElementById("get-guidance");
 const resetButton = document.getElementById("reset");
 const shareButton = document.getElementById("share");
 const outputCard = document.getElementById("output-card");
+
+const sidebarToggle = document.getElementById("sidebar-toggle");
+const sidebarClose = document.getElementById("sidebar-close");
+const sidebarOverlay = document.getElementById("sidebar-overlay");
+
 const recipesForm = document.getElementById("recipes-form");
-const generateRecipesButton = document.getElementById("generate-recipes");
-const recipesStatus = document.getElementById("recipes-status");
-const recipesOutput = document.getElementById("recipes-output");
+const generateDrinksButton = document.getElementById("generate-drinks");
+const drinksStatus = document.getElementById("drinks-status");
+const drinksGrid = document.getElementById("drinks-grid");
+const recipeDetail = document.getElementById("recipe-detail");
+const recipeTitle = document.getElementById("recipe-title");
+const recipeSummary = document.getElementById("recipe-summary");
+const recipeSteps = document.getElementById("recipe-steps");
 
 const defaults = {
   machine: "Breville Bambino",
@@ -45,9 +54,17 @@ const target = {
   timeMax: 30,
 };
 
+let availableDrinks = [];
+let activeDrinkId = null;
+
 const formatNumber = (value, digits = 1) => {
   if (!Number.isFinite(value)) return "-";
   return Number(value).toFixed(digits);
+};
+
+const formatOz = (value, suffix = "oz") => {
+  if (!Number.isFinite(value)) return "-";
+  return `${formatNumber(value, 1)} ${suffix}`;
 };
 
 const getValues = () => ({
@@ -111,11 +128,13 @@ const buildGuidance = (values) => {
   const bullets = [];
 
   bullets.push(getGrindGuidance({ ratio, time: values.time }));
-  bullets.push(getDoseYieldGuidance({
-    dose: values.dose,
-    yield: values.yield,
-    time: values.time,
-  }));
+  bullets.push(
+    getDoseYieldGuidance({
+      dose: values.dose,
+      yield: values.yield,
+      time: values.time,
+    })
+  );
 
   bullets.push(
     `Target ratio: 1:${formatNumber(target.ratio, 1)} (current ${formatNumber(
@@ -198,83 +217,174 @@ const shareSummary = async () => {
   }
 };
 
-const latteArtSteps = [
-  "Purge the steam wand and wipe clean.",
-  "Create glossy microfoam with fine bubbles.",
-  "Swirl and tap the pitcher to polish the milk.",
-  "Start with a higher pour, then lower to draw.",
-  "Finish with a gentle wiggle and lift for shape.",
-];
-
-const setRecipeStatus = (message, isVisible = true) => {
-  recipesStatus.textContent = message;
-  recipesStatus.classList.toggle("is-hidden", !isVisible);
+const setSidebarOpen = (isOpen) => {
+  document.body.classList.toggle("sidebar-open", isOpen);
+  sidebarToggle.setAttribute("aria-expanded", String(isOpen));
+  document.getElementById("sidebar").setAttribute("aria-hidden", String(!isOpen));
 };
 
-const setRecipesLoading = (isLoading) => {
-  generateRecipesButton.disabled = isLoading;
-  generateRecipesButton.textContent = isLoading
-    ? "Generating..."
-    : "Generate Recipes";
+const setDrinksStatus = (message, isVisible = true) => {
+  drinksStatus.textContent = message;
+  drinksStatus.classList.toggle("is-hidden", !isVisible);
 };
 
-const renderRecipes = (recipes, { latteArt, milkCapability }) => {
-  recipesOutput.innerHTML = "";
-  recipes.forEach((recipe) => {
+const setDrinksLoading = (isLoading) => {
+  generateDrinksButton.disabled = isLoading;
+  generateDrinksButton.textContent = isLoading
+    ? "Generating Drinks..."
+    : "Generate Drinks";
+};
+
+const getDrinkTint = (drink) => {
+  if (drink.milkOz > 0) return "#f3d9b1";
+  if (drink.waterOz > 0) return "#2d2b2a";
+  return "#3b261b";
+};
+
+const renderDrinks = (drinks) => {
+  drinksGrid.innerHTML = "";
+  drinks.forEach((drink) => {
     const card = document.createElement("article");
-    card.className = "recipe-card";
+    card.className = "drink-card";
+    card.dataset.drinkId = drink.id;
 
-    const title = document.createElement("h3");
-    title.textContent = recipe.name || "Recipe";
+    const header = document.createElement("div");
+    header.className = "drink-card__header";
 
-    const meta = document.createElement("div");
-    meta.className = "recipe-meta";
-    meta.innerHTML = `
-      <div>Dose: ${recipe.dose || "-"} · Yield: ${recipe.yield || "-"}</div>
-      <div>Time: ${recipe.time || "-"} · Milk: ${recipe.milkAmount || "-"}</div>
-      <div>Froth time: ${recipe.frothTime || "-"}</div>
+    const emoji = document.createElement("div");
+    emoji.className = "drink-emoji";
+    emoji.textContent = drink.emoji || "☕️";
+
+    const title = document.createElement("div");
+    title.className = "drink-title";
+    title.innerHTML = `<h3>${drink.name}</h3><p>${formatOz(
+      drink.espressoOz
+    )} espresso · ${formatOz(drink.milkOz, "fl oz")} milk</p>`;
+
+    header.appendChild(emoji);
+    header.appendChild(title);
+
+    const illustration = document.createElement("div");
+    illustration.className = `drink-illustration drink-illustration--${drink.glass}`;
+    const fillLevel = Math.min(
+      100,
+      Math.round(((drink.espressoOz + drink.milkOz + drink.waterOz) / 10) * 100)
+    );
+    illustration.style.setProperty("--fill", `${fillLevel}%`);
+    illustration.style.setProperty("--tint", getDrinkTint(drink));
+
+    const details = document.createElement("div");
+    details.className = "drink-details";
+    details.innerHTML = `
+      <div><span>Crema</span><strong>${drink.crema}</strong></div>
+      <div><span>Microfoam</span><strong>${drink.microfoam}</strong></div>
+      <div><span>Latte Art</span><strong>${drink.latteArt ? "Yes" : "No"}</strong></div>
     `;
 
-    const stepsList = document.createElement("ol");
-    stepsList.className = "recipe-steps";
-    let steps = Array.isArray(recipe.steps) ? recipe.steps : [];
-    const shouldAddLatteArt =
-      latteArt &&
-      milkCapability !== "no milk" &&
-      recipe.milkAmount &&
-      recipe.milkAmount !== "0 ml";
-    if (shouldAddLatteArt) {
-      steps = [...steps, ...latteArtSteps];
-    }
-    steps.forEach((step) => {
-      const li = document.createElement("li");
-      li.textContent = step;
-      stepsList.appendChild(li);
-    });
+    const action = document.createElement("button");
+    action.type = "button";
+    action.className = "drink-action";
+    action.textContent = "Make this";
 
-    card.appendChild(title);
-    card.appendChild(meta);
-    card.appendChild(stepsList);
-    recipesOutput.appendChild(card);
+    card.appendChild(header);
+    card.appendChild(illustration);
+    card.appendChild(details);
+    card.appendChild(action);
+
+    drinksGrid.appendChild(card);
   });
 };
 
-const handleGenerateRecipes = async () => {
+const renderRecipe = (recipe, drink) => {
+  recipeTitle.textContent = recipe.name || drink?.name || "Recipe";
+  const summaryText =
+    recipe.summary ||
+    `${formatOz(drink.espressoOz)} espresso · ${formatOz(
+      drink.milkOz,
+      "fl oz"
+    )} milk · ${formatOz(drink.waterOz, "fl oz")} water`;
+  recipeSummary.textContent = summaryText;
+
+  recipeSteps.innerHTML = "";
+  (recipe.steps || []).forEach((step) => {
+    const li = document.createElement("li");
+    li.textContent = step;
+    recipeSteps.appendChild(li);
+  });
+
+  recipeDetail.classList.remove("is-hidden");
+  recipeDetail.setAttribute("aria-hidden", "false");
+};
+
+const fetchDrinks = async () => {
+  const response = await fetch("/api/drinks");
+  if (!response.ok) {
+    throw new Error("Unable to fetch drinks");
+  }
+  const data = await response.json();
+  return data?.drinks || [];
+};
+
+const handleGenerateDrinks = async () => {
   const values = getRecipeValues();
   if (!values.grinder || !values.beanType) {
-    setRecipeStatus("Please fill in grinder and bean type.");
+    setDrinksStatus("Please fill in grinder and bean type.");
     return;
   }
 
-  setRecipesLoading(true);
-  setRecipeStatus("Contacting the recipe barista...");
-  recipesOutput.innerHTML = "";
+  setDrinksLoading(true);
+  setDrinksStatus("Curating your drink lineup...");
+  drinksGrid.innerHTML = "";
+  recipeDetail.classList.add("is-hidden");
+
+  try {
+    const drinks = await fetchDrinks();
+    availableDrinks = drinks;
+    activeDrinkId = null;
+
+    let filtered = drinks;
+    if (values.milkCapability === "no milk") {
+      filtered = drinks.filter((drink) => !drink.milkRequired);
+    }
+
+    if (filtered.length === 0) {
+      setDrinksStatus("No drinks match that setup. Try enabling milk.");
+      return;
+    }
+
+    renderDrinks(filtered);
+    setDrinksStatus("Pick a drink to generate the full recipe.");
+  } catch (error) {
+    setDrinksStatus("Unable to load drinks. Please try again.");
+  } finally {
+    setDrinksLoading(false);
+  }
+};
+
+const handleDrinkClick = async (event) => {
+  const card = event.target.closest(".drink-card");
+  if (!card) return;
+
+  const drinkId = card.dataset.drinkId;
+  const drink = availableDrinks.find((item) => item.id === drinkId);
+  if (!drink) return;
+
+  const values = getRecipeValues();
+  activeDrinkId = drinkId;
+
+  setDrinksStatus(`Building the ${drink.name} recipe...`);
+  const actionButton = card.querySelector(".drink-action");
+  const previousText = actionButton?.textContent;
+  if (actionButton) {
+    actionButton.disabled = true;
+    actionButton.textContent = "Brewing...";
+  }
 
   try {
     const response = await fetch("/api/recipes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
+      body: JSON.stringify({ ...values, drink }),
     });
 
     if (!response.ok) {
@@ -282,19 +392,30 @@ const handleGenerateRecipes = async () => {
       throw new Error(errorData.error || "Recipe request failed");
     }
 
-    const recipes = await response.json();
-    setRecipeStatus(`Generated ${recipes.length} recipes.`);
-    renderRecipes(recipes, values);
+    const recipe = await response.json();
+    setDrinksStatus(`Recipe ready for ${drink.name}.`);
+    renderRecipe(recipe, drink);
   } catch (error) {
-    setRecipeStatus("Unable to generate recipes. Please try again.");
+    setDrinksStatus("Unable to generate recipe. Please try again.");
   } finally {
-    setRecipesLoading(false);
+    if (actionButton) {
+      actionButton.disabled = false;
+      actionButton.textContent = previousText || "Make this";
+    }
   }
 };
 
 getGuidanceButton.addEventListener("click", handleGetGuidance);
 resetButton.addEventListener("click", resetForm);
 shareButton.addEventListener("click", shareSummary);
-generateRecipesButton.addEventListener("click", handleGenerateRecipes);
+
+sidebarToggle.addEventListener("click", () => setSidebarOpen(true));
+sidebarClose.addEventListener("click", () => setSidebarOpen(false));
+sidebarOverlay.addEventListener("click", () => setSidebarOpen(false));
+
+recipesForm.addEventListener("submit", (event) => event.preventDefault());
+generateDrinksButton.addEventListener("click", handleGenerateDrinks);
+drinksGrid.addEventListener("click", handleDrinkClick);
 
 setGuidanceVisibility(false);
+setSidebarOpen(false);

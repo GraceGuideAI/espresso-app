@@ -1,6 +1,6 @@
-# Espresso Dial-In Helper
+# Espresso Dial-In Helper + AI Recipe Maker
 
-Minimal, static espresso dial-in helper with shareable guidance.
+Minimal, static espresso dial-in helper with an AI recipe maker main page.
 
 ## Run locally
 
@@ -19,7 +19,10 @@ Then visit `http://localhost:5173`.
 
 ## AI Recipe Maker API
 
-The AI Recipe Maker uses a Vercel serverless function at `/api/recipes` and requires an OpenAI API key.
+The AI Recipe Maker uses Vercel serverless functions:
+
+- `GET /api/drinks` returns the base drink lineup (cards in the UI).
+- `POST /api/recipes` generates a full recipe for the selected drink.
 
 Set the environment variable:
 

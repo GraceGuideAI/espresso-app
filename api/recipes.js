@@ -7,8 +7,12 @@ const buildPrompt = ({
   beanType,
   roast,
   latteArt,
+  drink,
 }) => {
-  return `Create espresso drink recipes based on the inputs below.
+  const latteArtRequested =
+    latteArt && drink?.milkOz > 0 && milkCapability !== "no milk";
+
+  return `Create a single espresso drink recipe based on the inputs below.
 
 Inputs:
 - Machine: ${machine}
@@ -16,19 +20,22 @@ Inputs:
 - Milk capability: ${milkCapability}
 - Bean type: ${beanType}
 - Roast: ${roast}
-- Latte art requested: ${latteArt ? "yes" : "no"}
+- Selected drink: ${drink?.name || "Unknown"}
+- Drink volumes (liquid): espresso ${drink?.espressoOz ?? "-"} oz, milk ${
+    drink?.milkOz ?? "-"
+  } fl oz, water ${drink?.waterOz ?? "-"} fl oz
+- Latte art requested: ${latteArtRequested ? "yes" : "no"}
 
 Rules:
-- Output ONLY JSON (no markdown) as an array of 6-10 objects.
-- Each object must include: name, steps (array of strings), dose, yield, time, milkAmount, frothTime.
-- dose/yield must be in grams, time in seconds, milkAmount in milliliters, frothTime in seconds.
-- Only include drinks supported by the milk capability:
-  - "steam wand": allow milk drinks that assume manual steaming.
-  - "auto milk": allow milk drinks but assume automatic milk system (no manual steaming steps).
-  - "no milk": only espresso or water-based drinks (espresso, ristretto, lungo, americano, long black).
-- If milk is not used, set milkAmount to "0 ml" and frothTime to "0 s".
-- Keep steps concise and sequential.
-- If the machine is "DeLonghi Magnifica Evo (non-LatteCrema)", assume it grinds and brews automatically and the user steams milk separately with a steam wand; include those details in steps.
+- Output ONLY JSON (no markdown) as a single object.
+- The object must include: name, summary, espressoOz, milkOz, waterOz, shotType, steps (array of strings).
+- Use oz/fl oz for liquids in both the summary and steps. Example: "2 oz espresso" or "6 fl oz milk".
+- If milkOz is 0, do not include any milk steaming steps or latte art steps.
+- If milk is used and milkCapability is "steam wand", say "steam to create microfoam" (avoid the word "froth") and include timing guidance (seconds) for steaming with the wand.
+- If milk is used and milkCapability is "auto milk", use automatic milk program steps only (no manual steaming).
+- If the machine is "DeLonghi Magnifica Evo (non-LatteCrema)", do NOT mention grinding. Choose single vs double shot based on espresso volume (<=1.5 oz = single, >1.5 oz = double). Include specific brew instructions for the super-auto.
+- Keep steps concise, sequential, and practical.
+- If latte art is requested, add steps that cover pitcher technique, stretching/texturing, when to start pouring, swirling/tapping to integrate microfoam, and the art pour. Only include latte art steps when requested.
 `;
 };
 
@@ -50,9 +57,17 @@ module.exports = async (req, res) => {
       beanType,
       roast,
       latteArt,
+      drink,
     } = req.body || {};
 
-    if (!machine || !grinder || !milkCapability || !beanType || !roast) {
+    if (
+      !machine ||
+      !grinder ||
+      !milkCapability ||
+      !beanType ||
+      !roast ||
+      !drink?.name
+    ) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -63,6 +78,7 @@ module.exports = async (req, res) => {
       beanType,
       roast,
       latteArt: Boolean(latteArt),
+      drink,
     });
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -97,19 +113,19 @@ module.exports = async (req, res) => {
     const data = await response.json();
     const content = data?.choices?.[0]?.message?.content || "";
 
-    let recipes = [];
+    let recipe = {};
     try {
       const parsed = JSON.parse(content);
-      recipes = Array.isArray(parsed) ? parsed : parsed?.recipes || [];
+      recipe = Array.isArray(parsed) ? parsed?.[0] : parsed;
     } catch (error) {
       return res.status(500).json({ error: "Invalid JSON from model" });
     }
 
-    if (!Array.isArray(recipes) || recipes.length < 1) {
+    if (!recipe || !recipe.steps || !recipe.name) {
       return res.status(500).json({ error: "No recipes returned" });
     }
 
-    return res.status(200).json(recipes);
+    return res.status(200).json(recipe);
   } catch (error) {
     return res.status(500).json({ error: "Server error" });
   }

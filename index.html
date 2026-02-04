@@ -3,18 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Espresso Dial-In Helper</title>
+    <title>AI Recipe Maker</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="container">
-      <header class="header">
-        <h1>Espresso Dial-In Helper</h1>
-        <p>Quick guidance for your next espresso adjustment.</p>
-      </header>
+    <button
+      class="sidebar-toggle"
+      id="sidebar-toggle"
+      aria-controls="sidebar"
+      aria-expanded="false"
+      type="button"
+    >
+      Dial-In Helper
+    </button>
+
+    <aside class="sidebar" id="sidebar" aria-hidden="true">
+      <div class="sidebar-header">
+        <div>
+          <p class="eyebrow">Dial-In Helper</p>
+          <h2>Espresso Dial-In Helper</h2>
+        </div>
+        <button class="sidebar-close" id="sidebar-close" type="button">Close</button>
+      </div>
 
       <section class="card" aria-labelledby="inputs-title">
-        <h2 id="inputs-title">Dial-in details</h2>
+        <h3 id="inputs-title">Dial-in details</h3>
         <form id="dialin-form" autocomplete="off">
           <div class="grid">
             <label>
@@ -74,19 +87,36 @@
       </section>
 
       <section class="card is-hidden" id="output-card" aria-labelledby="guidance-title" aria-hidden="true">
-        <h2 id="guidance-title">Guidance</h2>
+        <h3 id="guidance-title">Guidance</h3>
         <p class="helper-text">
           Guidance is based on your brew ratio (yield / dose) and shot time vs the 1:2, 25-30s target.
         </p>
         <ul id="guidance"></ul>
         <div class="next-adjustment" id="next-adjustment"></div>
       </section>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+    <main class="container">
+      <header class="header">
+        <p class="eyebrow">AI Recipe Maker</p>
+        <h1>Build a lineup of espresso drinks in seconds.</h1>
+        <p>
+          Set your machine + bean details, generate the drink lineup, then tap a drink to get the full
+          AI recipe with brew and milk guidance.
+        </p>
+      </header>
 
       <section class="card" aria-labelledby="recipes-title">
-        <h2 id="recipes-title">AI Recipe Maker</h2>
-        <p class="helper-text">
-          Generate personalized drink recipes based on your setup and beans.
-        </p>
+        <div class="section-title">
+          <div>
+            <h2 id="recipes-title">Your Setup</h2>
+            <p class="helper-text">Tell the barista bot how your station is configured.</p>
+          </div>
+          <span class="tag">Ready to brew</span>
+        </div>
+
         <form id="recipes-form" autocomplete="off">
           <div class="grid">
             <label>
@@ -137,12 +167,36 @@
           </div>
 
           <div class="actions" role="group" aria-label="Recipe actions">
-            <button type="button" id="generate-recipes">Generate Recipes</button>
+            <button type="button" id="generate-drinks">Generate Drinks</button>
           </div>
         </form>
+      </section>
 
-        <div class="recipe-status is-hidden" id="recipes-status" aria-live="polite"></div>
-        <div class="recipe-grid" id="recipes-output" aria-live="polite"></div>
+      <section class="card" aria-labelledby="drinks-title">
+        <div class="section-title">
+          <div>
+            <h2 id="drinks-title">Drink Lineup</h2>
+            <p class="helper-text">Each drink shows its espresso-to-milk balance and texture goals.</p>
+          </div>
+        </div>
+        <div class="recipe-status is-hidden" id="drinks-status" aria-live="polite"></div>
+        <div class="drink-grid" id="drinks-grid" aria-live="polite"></div>
+      </section>
+
+      <section
+        class="card is-hidden"
+        id="recipe-detail"
+        aria-labelledby="recipe-detail-title"
+        aria-hidden="true"
+      >
+        <div class="section-title">
+          <div>
+            <h2 id="recipe-detail-title">Recipe Steps</h2>
+            <p class="helper-text" id="recipe-summary"></p>
+          </div>
+        </div>
+        <h3 id="recipe-title"></h3>
+        <ol class="recipe-steps" id="recipe-steps"></ol>
       </section>
     </main>
 
