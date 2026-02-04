@@ -54,25 +54,25 @@
               <div class="setup-title-row">
                 <h1 id="setup-title">What's your setup?</h1>
                 <span class="setup-icon" aria-hidden="true">
-                  <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
+                  <svg class="cup-icon" viewBox="0 0 64 64" role="img" aria-hidden="true">
                     <path
+                      class="cup-outline"
                       d="M14 30h28c0 10-6 18-14 18s-14-8-14-18z"
                       fill="none"
-                      stroke="#A1A1A6"
                       stroke-width="2.2"
                       stroke-linejoin="round"
                     />
                     <path
+                      class="cup-handle"
                       d="M42 32h6c4 0 7 3 7 7s-3 7-7 7h-6"
                       fill="none"
-                      stroke="#A1A1A6"
                       stroke-width="2.2"
                       stroke-linecap="round"
                     />
                     <path
+                      class="cup-base"
                       d="M12 50h36"
                       fill="none"
-                      stroke="#A1A1A6"
                       stroke-width="2.2"
                       stroke-linecap="round"
                     />
@@ -91,7 +91,11 @@
           <form id="recipes-form" autocomplete="off">
             <div class="form-block">
               <div class="form-label">Machine Type</div>
-              <div class="pill-group pill-group--triple" role="radiogroup" aria-label="Machine Type">
+              <div
+                class="pill-group segmented-control segmented-control--triple"
+                role="radiogroup"
+                aria-label="Machine Type"
+              >
                 <input
                   class="pill-input"
                   type="radio"
@@ -147,7 +151,7 @@
               </div>
               <div class="helper-text">Optional: pick your exact machine model below.</div>
               <label class="select-inline">
-                Machine Model
+                <span class="field-label">Machine Model</span>
                 <select id="recipe-machine">
                   <option value="Breville Bambino" selected>Breville Bambino</option>
                   <option value="Breville Barista Express">Breville Barista Express</option>
@@ -162,7 +166,11 @@
 
             <div class="form-block">
               <div class="form-label">Grinder Type</div>
-              <div class="pill-group pill-group--triple" role="radiogroup" aria-label="Grinder Type">
+              <div
+                class="pill-group segmented-control segmented-control--triple"
+                role="radiogroup"
+                aria-label="Grinder Type"
+              >
                 <input
                   class="pill-input"
                   type="radio"
@@ -222,16 +230,20 @@
               <div class="form-label">Filter Basket Size</div>
               <div class="slider-row">
                 <div class="slider-control">
-                  <input
-                    id="basket-size"
-                    class="slider"
-                    type="range"
-                    min="14"
-                    max="22"
-                    step="1"
-                    value="18"
-                  />
-                  <span class="slider-value"><output id="basket-size-output">18</output> g</span>
+                  <div class="slider-track" id="basket-size-track">
+                    <input
+                      id="basket-size"
+                      class="slider"
+                      type="range"
+                      min="14"
+                      max="22"
+                      step="1"
+                      value="18"
+                    />
+                    <span class="slider-value" id="basket-size-value">
+                      <output id="basket-size-output">18</output> g
+                    </span>
+                  </div>
                 </div>
                 <div class="slider-meta">
                   <span>Single 14g</span>
@@ -242,7 +254,7 @@
 
             <div class="form-block">
               <div class="form-label">Milk Frothing</div>
-              <div class="pill-group" role="radiogroup" aria-label="Milk Frothing">
+              <div class="pill-group segmented-control" role="radiogroup" aria-label="Milk Frothing">
                 <input
                   class="pill-input"
                   type="radio"
@@ -308,7 +320,7 @@
 
             <div class="actions">
               <button type="button" id="generate-drinks" class="cta-button">
-                Next: Get Recipes ✨
+                Next: Get Recipes
               </button>
             </div>
           </form>
@@ -344,11 +356,17 @@
 
       <section class="app-view" id="view-dialin" data-view="dialin">
         <header class="header">
-          <p class="eyebrow">Dial-In Helper</p>
-          <h1>Dial in your espresso in minutes.</h1>
-          <p>
-            Share your shot details and get a focused adjustment recommendation for the next pull.
-          </p>
+          <div class="header-main">
+            <p class="eyebrow">Dial-In Helper</p>
+            <h1>Dial in your espresso in minutes.</h1>
+            <p>
+              Share your shot details and get a focused adjustment recommendation for the next pull.
+            </p>
+          </div>
+          <div class="header-meta">
+            <span class="tag">Target 1:2 in 25-30s</span>
+            <span class="header-note">Taste-first adjustments, one change at a time.</span>
+          </div>
         </header>
 
         <section class="card" aria-labelledby="inputs-title">

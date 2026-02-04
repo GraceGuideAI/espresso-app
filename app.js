@@ -26,6 +26,8 @@ const grinderTypeInputs = Array.from(document.querySelectorAll('input[name="grin
 const milkFrothingInputs = Array.from(document.querySelectorAll('input[name="milk-frothing"]'));
 const basketSizeInput = document.getElementById("basket-size");
 const basketSizeOutput = document.getElementById("basket-size-output");
+const basketSizeTrack = document.getElementById("basket-size-track");
+const basketSizeValue = document.getElementById("basket-size-value");
 const recipeMachineSelect = document.getElementById("recipe-machine");
 const latteArtInput = document.getElementById("latte-art");
 
@@ -280,7 +282,7 @@ const setDrinksLoading = (isLoading) => {
   generateDrinksButton.disabled = isLoading;
   generateDrinksButton.textContent = isLoading
     ? "Generating Drinks..."
-    : "Next: Get Recipes ✨";
+    : "Next: Get Recipes";
 };
 
 const cremaHeights = {
@@ -536,7 +538,17 @@ machineTypeInputs.forEach((input) => {
 
 if (basketSizeInput && basketSizeOutput) {
   const updateBasketOutput = () => {
-    basketSizeOutput.textContent = basketSizeInput.value;
+    const value = Number(basketSizeInput.value);
+    basketSizeOutput.textContent = value;
+    const min = Number(basketSizeInput.min) || 0;
+    const max = Number(basketSizeInput.max) || 100;
+    const percent = ((value - min) / (max - min)) * 100;
+    if (basketSizeTrack) {
+      basketSizeTrack.style.setProperty("--value-pct", percent.toFixed(2));
+    }
+    if (basketSizeValue) {
+      basketSizeValue.setAttribute("aria-live", "polite");
+    }
   };
   updateBasketOutput();
   basketSizeInput.addEventListener("input", updateBasketOutput);
