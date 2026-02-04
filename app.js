@@ -563,14 +563,6 @@ machineTypeInputs.forEach((input) => {
   });
 });
 
-    if (basketSizeValue) {
-      basketSizeValue.setAttribute("aria-live", "polite");
-    }
-  };
-  updateBasketOutput();
-  basketSizeInput.addEventListener("input", updateBasketOutput);
-}
-
 setGuidanceVisibility(false);
 setSidebarOpen(false);
 setActiveView("recipes");
