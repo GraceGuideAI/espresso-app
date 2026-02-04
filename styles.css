@@ -142,7 +142,7 @@ main.container {
   padding: 16px;
   margin-top: 20px;
   box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.7);
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .card h2,
@@ -656,6 +656,13 @@ form#recipes-form {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.form-block--slider {
+  width: 100%;
+  padding-right: 16px;
+  box-sizing: border-box;
 }
 
 .form-label {
@@ -782,10 +789,12 @@ form#recipes-form {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .slider {
-  width: 100%;
+  width: calc(100% - 32px);
+  margin: 0 16px;
   appearance: none;
   height: 44px;
   min-height: 44px;
@@ -797,6 +806,7 @@ form#recipes-form {
   );
   border-radius: 999px;
   outline: none;
+  box-sizing: border-box;
 }
 
 .slider::-webkit-slider-thumb {
@@ -838,8 +848,9 @@ form#recipes-form {
   justify-content: space-between;
   font-size: 0.78rem;
   color: var(--muted);
-  width: 100%;
+  width: calc(100% - 32px);
   max-width: 100%;
+  margin: 0 auto;
   box-sizing: border-box;
 }
 
