@@ -1048,18 +1048,20 @@ form#recipes-form {
 
 @media (max-width: 720px) {
   .setup-hero {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
   }
 
-  .setup-hero-text,
-  .setup-hero-art {
-    flex: 0 0 100%;
-    width: 100%;
+  .setup-hero-text {
+    flex: 1 1 auto;
+    max-width: 60%;
   }
 
   .setup-hero-art {
-    justify-content: flex-start;
+    flex: 0 0 35%;
+    width: 35%;
+    max-width: 130px;
+    justify-content: flex-end;
   }
 
   .grid {
