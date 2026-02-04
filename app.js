@@ -27,6 +27,7 @@ const milkFrothingInputs = Array.from(document.querySelectorAll('input[name="mil
 const basketSizeInput = document.getElementById("basket-size");
 const basketSizeOutput = document.getElementById("basket-size-output");
 const recipeMachineSelect = document.getElementById("recipe-machine");
+const latteArtInput = document.getElementById("latte-art");
 
 const defaults = {
   machine: "Breville Bambino",
@@ -50,7 +51,14 @@ const fields = {
 
 const machineDefaultsByType = {
   "semi-auto": "Breville Bambino",
-  manual: "Rancilio Silvia",
+  automatic: "Breville Barista Express",
+  "super-auto": "DeLonghi Magnifica Evo (non-LatteCrema)",
+};
+
+const machineCapabilitiesByType = {
+  "semi-auto": { autoGrind: false, autoDose: false, grindStyle: "manual" },
+  automatic: { autoGrind: false, autoDose: true, grindStyle: "manual" },
+  "super-auto": { autoGrind: true, autoDose: true, grindStyle: "auto" },
 };
 
 let machineModelTouched = false;
@@ -92,15 +100,23 @@ const getRecipeValues = () => {
   const milkFrothing = getCheckedValue(milkFrothingInputs) || "steam";
   const basketSize = Number(basketSizeInput?.value) || 18;
   const machine = recipeMachineSelect?.value || machineDefaultsByType[machineType];
+  const machineCapabilities = machineCapabilitiesByType[machineType] || machineCapabilitiesByType["semi-auto"];
+
+  const grinderLabels = {
+    burr: "Burr grinder",
+    "built-in": "Built-in grinder",
+    preground: "Pre-ground coffee",
+  };
 
   return {
     machine,
-    grinder: grinderType === "burr" ? "Burr grinder" : "Pre-ground coffee",
+    grinder: grinderLabels[grinderType] || grinderLabels.burr,
     milkCapability:
       milkFrothing === "steam" ? "steam wand" : milkFrothing === "frother" ? "auto milk" : "no milk",
     beanType: `House blend (${basketSize}g basket)`,
     roast: "medium",
-    latteArt: false,
+    latteArt: Boolean(latteArtInput?.checked),
+    machineCapabilities,
   };
 };
 

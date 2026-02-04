@@ -57,16 +57,20 @@
                   <svg viewBox="0 0 120 120" role="img">
                     <defs>
                       <linearGradient id="cupGradient" x1="0" x2="1">
-                        <stop offset="0%" stop-color="#e8d2bb" />
-                        <stop offset="100%" stop-color="#c4a484" />
+                        <stop offset="0%" stop-color="#f3dcc6" />
+                        <stop offset="100%" stop-color="#c7a07c" />
+                      </linearGradient>
+                      <linearGradient id="saucerGradient" x1="0" x2="1">
+                        <stop offset="0%" stop-color="#f7e7d7" />
+                        <stop offset="100%" stop-color="#e2c4a7" />
                       </linearGradient>
                     </defs>
-                    <path d="M30 52h50c0 20-10 34-25 34S30 72 30 52z" fill="url(#cupGradient)" />
-                    <path d="M80 58h10c8 0 14 6 14 14s-6 14-14 14H76" fill="none" stroke="#c4a484" stroke-width="8" stroke-linecap="round" />
-                    <rect x="26" y="86" width="58" height="10" rx="5" fill="#b0896b" />
-                    <path class="steam" d="M40 40c6-8 6-16 0-24" />
+                    <path d="M26 54h54c0 20-11 34-27 34S26 74 26 54z" fill="url(#cupGradient)" />
+                    <path d="M76 58h12c8 0 14 6 14 14s-6 14-14 14H74" fill="none" stroke="#c7a07c" stroke-width="7" stroke-linecap="round" />
+                    <rect x="20" y="88" width="64" height="9" rx="4.5" fill="url(#saucerGradient)" />
+                    <path class="steam" d="M38 40c6-8 6-16 0-24" />
                     <path class="steam" d="M60 40c6-8 6-16 0-24" />
-                    <path class="steam" d="M80 40c6-8 6-16 0-24" />
+                    <path class="steam" d="M82 40c6-8 6-16 0-24" />
                   </svg>
                 </span>
               </div>
@@ -102,16 +106,35 @@
                   class="pill-input"
                   type="radio"
                   name="machine-type"
-                  id="machine-type-manual"
-                  value="manual"
+                  id="machine-type-automatic"
+                  value="automatic"
                 />
-                <label class="pill-option" for="machine-type-manual">
+                <label class="pill-option" for="machine-type-automatic">
                   <span class="pill-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                      <path d="M6 20h12M9 20V8h6v12M8 8h8l-1-3H9l-1 3z"></path>
+                      <rect x="5" y="5" width="14" height="12" rx="2"></rect>
+                      <path d="M9 17v2m6-2v2M8 9h8M8 12h8"></path>
                     </svg>
                   </span>
-                  <span>Manual</span>
+                  <span>Automatic</span>
+                </label>
+
+                <input
+                  class="pill-input"
+                  type="radio"
+                  name="machine-type"
+                  id="machine-type-super"
+                  value="super-auto"
+                />
+                <label class="pill-option" for="machine-type-super">
+                  <span class="pill-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                      <rect x="4" y="4" width="16" height="14" rx="2"></rect>
+                      <path d="M7 8h10M7 12h6"></path>
+                      <path d="M10 18v2m4-2v2"></path>
+                    </svg>
+                  </span>
+                  <span>Super-Automatic</span>
                 </label>
               </div>
               <div class="helper-text">Optional: pick your exact machine model below.</div>
@@ -149,6 +172,23 @@
                     </svg>
                   </span>
                   <span>Burr Grinder</span>
+                </label>
+
+                <input
+                  class="pill-input"
+                  type="radio"
+                  name="grinder-type"
+                  id="grinder-type-built-in"
+                  value="built-in"
+                />
+                <label class="pill-option" for="grinder-type-built-in">
+                  <span class="pill-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                      <rect x="6" y="5" width="12" height="14" rx="2"></rect>
+                      <path d="M8 9h8M9 13h6"></path>
+                    </svg>
+                  </span>
+                  <span>Built-In</span>
                 </label>
 
                 <input
@@ -245,6 +285,14 @@
                   </span>
                 </label>
               </div>
+            </div>
+
+            <div class="form-block">
+              <div class="form-label">Latte Art</div>
+              <label class="checkbox" for="latte-art">
+                <span>Include latte art steps</span>
+                <input id="latte-art" type="checkbox" />
+              </label>
             </div>
 
             <div class="actions">
