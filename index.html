@@ -14,189 +14,356 @@
       aria-expanded="false"
       type="button"
     >
-      Dial-In Helper
+      <span class="hamburger" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      <span class="toggle-text">Menu</span>
     </button>
 
     <aside class="sidebar" id="sidebar" aria-hidden="true">
       <div class="sidebar-header">
         <div>
-          <p class="eyebrow">Dial-In Helper</p>
-          <h2>Espresso Dial-In Helper</h2>
+          <p class="eyebrow">Espresso Toolkit</p>
+          <h2>Dial-In & Recipes</h2>
         </div>
-        <button class="sidebar-close" id="sidebar-close" type="button">Close</button>
+        <button class="sidebar-close" id="sidebar-close" type="button" aria-label="Close menu">
+          x
+        </button>
       </div>
 
-      <section class="card" aria-labelledby="inputs-title">
-        <h3 id="inputs-title">Dial-in details</h3>
-        <form id="dialin-form" autocomplete="off">
-          <div class="grid">
-            <label>
-              Machine
-              <select id="machine">
-                <option value="Breville Bambino" selected>Breville Bambino</option>
-                <option value="Breville Barista Express">Breville Barista Express</option>
-                <option value="Gaggia Classic">Gaggia Classic</option>
-                <option value="Rancilio Silvia">Rancilio Silvia</option>
-              </select>
-            </label>
-
-            <label>
-              Basket size (g)
-              <input id="basket" type="number" min="10" max="24" step="0.1" value="18" />
-            </label>
-
-            <label>
-              Dose in (g)
-              <input id="dose" type="number" min="10" max="24" step="0.1" value="18" />
-            </label>
-
-            <label>
-              Yield out (g)
-              <input id="yield" type="number" min="20" max="60" step="0.1" value="36" />
-            </label>
-
-            <label>
-              Time (s)
-              <input id="time" type="number" min="10" max="60" step="1" value="28" />
-            </label>
-
-            <label>
-              Roast level
-              <select id="roast">
-                <option value="light">Light</option>
-                <option value="medium" selected>Medium</option>
-                <option value="dark">Dark</option>
-              </select>
-            </label>
-
-            <label>
-              Grinder type
-              <select id="grinder">
-                <option value="Baratza Encore ESP" selected>Baratza Encore ESP</option>
-                <option value="1Zpresso manual">1Zpresso manual</option>
-              </select>
-            </label>
-          </div>
-
-          <div class="actions" role="group" aria-label="Form actions">
-            <button type="button" id="get-guidance">Get Guidance</button>
-            <button type="button" id="reset" disabled>Reset</button>
-            <button type="button" id="share" disabled>Share</button>
-          </div>
-        </form>
-      </section>
-
-      <section class="card is-hidden" id="output-card" aria-labelledby="guidance-title" aria-hidden="true">
-        <h3 id="guidance-title">Guidance</h3>
-        <p class="helper-text">
-          Guidance is based on your brew ratio (yield / dose) and shot time vs the 1:2, 25-30s target.
-        </p>
-        <ul id="guidance"></ul>
-        <div class="next-adjustment" id="next-adjustment"></div>
-      </section>
+      <nav class="sidebar-nav" aria-label="Primary">
+        <button class="sidebar-link is-active" type="button" data-view-target="recipes">
+          AI Recipe Maker
+        </button>
+        <button class="sidebar-link" type="button" data-view-target="dialin">
+          Dial-In Helper
+        </button>
+      </nav>
     </aside>
 
     <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
 
     <main class="container">
-      <header class="header">
-        <p class="eyebrow">AI Recipe Maker</p>
-        <h1>Build a lineup of espresso drinks in seconds.</h1>
-        <p>
-          Set your machine + bean details, generate the drink lineup, then tap a drink to get the full
-          AI recipe with brew and milk guidance.
-        </p>
-      </header>
+      <section class="app-view is-active" id="view-recipes" data-view="recipes">
+        <section class="setup-card" aria-labelledby="setup-title">
+          <div class="setup-content">
+            <p class="eyebrow">STEP 1 OF 1</p>
+            <h1 id="setup-title">What's your setup?</h1>
+            <p class="setup-subhead">
+              Tell us about your espresso gear and we'll unlock drinks you can actually make.
+            </p>
 
-      <section class="card" aria-labelledby="recipes-title">
-        <div class="section-title">
-          <div>
-            <h2 id="recipes-title">Your Setup</h2>
-            <p class="helper-text">Tell the barista bot how your station is configured.</p>
+            <form id="recipes-form" autocomplete="off">
+              <div class="form-block">
+                <div class="form-label">Machine Type</div>
+                <div class="pill-group" role="radiogroup" aria-label="Machine Type">
+                  <input
+                    class="pill-input"
+                    type="radio"
+                    name="machine-type"
+                    id="machine-type-semi"
+                    value="semi-auto"
+                    checked
+                  />
+                  <label class="pill-option" for="machine-type-semi">
+                    <span class="pill-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <rect x="3" y="6" width="18" height="12" rx="2"></rect>
+                        <path d="M7 18v2m10-2v2M9 10h6"></path>
+                      </svg>
+                    </span>
+                    <span>Semi-Auto</span>
+                  </label>
+
+                  <input
+                    class="pill-input"
+                    type="radio"
+                    name="machine-type"
+                    id="machine-type-manual"
+                    value="manual"
+                  />
+                  <label class="pill-option" for="machine-type-manual">
+                    <span class="pill-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M6 20h12M9 20V8h6v12M8 8h8l-1-3H9l-1 3z"></path>
+                      </svg>
+                    </span>
+                    <span>Manual</span>
+                  </label>
+                </div>
+                <div class="helper-text">Optional: pick your exact machine model below.</div>
+                <label class="select-inline">
+                  Machine Model
+                  <select id="recipe-machine">
+                    <option value="Breville Bambino" selected>Breville Bambino</option>
+                    <option value="Breville Barista Express">Breville Barista Express</option>
+                    <option value="Gaggia Classic">Gaggia Classic</option>
+                    <option value="Rancilio Silvia">Rancilio Silvia</option>
+                    <option value="DeLonghi Magnifica Evo (non-LatteCrema)">
+                      DeLonghi Magnifica Evo (non-LatteCrema)
+                    </option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="form-block">
+                <div class="form-label">Grinder Type</div>
+                <div class="pill-group" role="radiogroup" aria-label="Grinder Type">
+                  <input
+                    class="pill-input"
+                    type="radio"
+                    name="grinder-type"
+                    id="grinder-type-burr"
+                    value="burr"
+                    checked
+                  />
+                  <label class="pill-option" for="grinder-type-burr">
+                    <span class="pill-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M8 4h8l1 6H7l1-6z"></path>
+                        <rect x="6" y="10" width="12" height="8" rx="2"></rect>
+                        <path d="M10 18v2m4-2v2"></path>
+                      </svg>
+                    </span>
+                    <span>Burr Grinder</span>
+                  </label>
+
+                  <input
+                    class="pill-input"
+                    type="radio"
+                    name="grinder-type"
+                    id="grinder-type-preground"
+                    value="preground"
+                  />
+                  <label class="pill-option" for="grinder-type-preground">
+                    <span class="pill-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M7 5h10l-1 12H8L7 5z"></path>
+                        <path d="M9 5V3h6v2"></path>
+                      </svg>
+                    </span>
+                    <span>Pre-Ground</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-block">
+                <div class="form-label">Filter Basket Size</div>
+                <div class="slider-row">
+                  <input
+                    id="basket-size"
+                    class="slider"
+                    type="range"
+                    min="14"
+                    max="22"
+                    step="1"
+                    value="18"
+                  />
+                  <div class="slider-meta">
+                    <span>Single 14g</span>
+                    <span class="slider-value"><output id="basket-size-output">18</output> g</span>
+                    <span>Double 22g</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-block">
+                <div class="form-label">Milk Frothing</div>
+                <div class="pill-group" role="radiogroup" aria-label="Milk Frothing">
+                  <input
+                    class="pill-input"
+                    type="radio"
+                    name="milk-frothing"
+                    id="milk-frothing-steam"
+                    value="steam"
+                    checked
+                  />
+                  <label class="pill-option" for="milk-frothing-steam">
+                    <span class="pill-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M6 16c0-2 3-2 3-4s-3-2-3-4"></path>
+                        <path d="M12 16c0-2 3-2 3-4s-3-2-3-4"></path>
+                        <path d="M8 20h8"></path>
+                      </svg>
+                    </span>
+                    <span>Steam Wand</span>
+                  </label>
+
+                  <input
+                    class="pill-input"
+                    type="radio"
+                    name="milk-frothing"
+                    id="milk-frothing-frother"
+                    value="frother"
+                  />
+                  <label class="pill-option" for="milk-frothing-frother">
+                    <span class="pill-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M9 4h6v6H9z"></path>
+                        <path d="M8 10h8l-1 9H9l-1-9z"></path>
+                      </svg>
+                    </span>
+                    <span>Frother</span>
+                  </label>
+
+                  <input
+                    class="pill-input"
+                    type="radio"
+                    name="milk-frothing"
+                    id="milk-frothing-none"
+                    value="none"
+                  />
+                  <label class="pill-option pill-icon-only" for="milk-frothing-none" aria-label="No milk">
+                    <span class="pill-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <circle cx="12" cy="12" r="7"></circle>
+                        <path d="M8 8l8 8"></path>
+                      </svg>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="actions">
+                <button type="button" id="generate-drinks" class="cta-button">
+                  Next: Get Recipes ✨
+                </button>
+              </div>
+            </form>
           </div>
-          <span class="tag">Ready to brew</span>
-        </div>
 
-        <form id="recipes-form" autocomplete="off">
-          <div class="grid">
-            <label>
-              Machine
-              <select id="recipe-machine">
-                <option value="Breville Bambino" selected>Breville Bambino</option>
-                <option value="Breville Barista Express">Breville Barista Express</option>
-                <option value="Gaggia Classic">Gaggia Classic</option>
-                <option value="Rancilio Silvia">Rancilio Silvia</option>
-                <option value="DeLonghi Magnifica Evo (non-LatteCrema)">
-                  DeLonghi Magnifica Evo (non-LatteCrema)
-                </option>
-              </select>
-            </label>
-
-            <label>
-              Grinder
-              <input id="recipe-grinder" type="text" value="Baratza Encore ESP" />
-            </label>
-
-            <label>
-              Milk capability
-              <select id="recipe-milk-capability">
-                <option value="steam wand" selected>Steam wand</option>
-                <option value="auto milk">Auto milk</option>
-                <option value="no milk">No milk</option>
-              </select>
-            </label>
-
-            <label>
-              Bean type
-              <input id="recipe-bean-type" type="text" value="Single origin" />
-            </label>
-
-            <label>
-              Roast level
-              <select id="recipe-roast">
-                <option value="light">Light</option>
-                <option value="medium" selected>Medium</option>
-                <option value="dark">Dark</option>
-              </select>
-            </label>
-
-            <label class="checkbox">
-              <span>Latte art focus</span>
-              <input id="recipe-latte-art" type="checkbox" />
-            </label>
+          <div class="setup-illustration" aria-hidden="true">
+            <svg viewBox="0 0 360 360" role="img">
+              <defs>
+                <linearGradient id="machineGradient" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#e2c9ae" />
+                  <stop offset="100%" stop-color="#c4a484" />
+                </linearGradient>
+              </defs>
+              <rect x="60" y="120" width="220" height="150" rx="20" fill="url(#machineGradient)" />
+              <rect x="80" y="140" width="60" height="60" rx="12" fill="#f7efe4" />
+              <rect x="170" y="140" width="90" height="18" rx="9" fill="#b0896b" />
+              <rect x="170" y="170" width="70" height="50" rx="8" fill="#f1e6da" />
+              <rect x="120" y="240" width="100" height="18" rx="9" fill="#b0896b" />
+              <rect x="150" y="250" width="50" height="40" rx="10" fill="#efe2d3" />
+              <rect x="130" y="290" width="90" height="12" rx="6" fill="#b0896b" />
+              <circle class="bean" cx="290" cy="120" r="10" fill="#c4a484" />
+              <circle class="bean" cx="300" cy="160" r="8" fill="#d3b69a" />
+              <circle class="bean" cx="280" cy="190" r="7" fill="#b48c6a" />
+              <path class="steam" d="M120 90c10-12 10-24 0-36" />
+              <path class="steam" d="M160 90c10-12 10-24 0-36" />
+              <path class="steam" d="M200 90c10-12 10-24 0-36" />
+            </svg>
           </div>
+        </section>
 
-          <div class="actions" role="group" aria-label="Recipe actions">
-            <button type="button" id="generate-drinks">Generate Drinks</button>
+        <section class="card" aria-labelledby="drinks-title">
+          <div class="section-title">
+            <div>
+              <h2 id="drinks-title">Drink Lineup</h2>
+              <p class="helper-text">Each drink shows its espresso-to-milk balance and texture goals.</p>
+            </div>
           </div>
-        </form>
+          <div class="recipe-status is-hidden" id="drinks-status" aria-live="polite"></div>
+          <div class="drink-grid" id="drinks-grid" aria-live="polite"></div>
+        </section>
+
+        <section
+          class="card is-hidden"
+          id="recipe-detail"
+          aria-labelledby="recipe-detail-title"
+          aria-hidden="true"
+        >
+          <div class="section-title">
+            <div>
+              <h2 id="recipe-detail-title">Recipe Steps</h2>
+              <p class="helper-text" id="recipe-summary"></p>
+            </div>
+          </div>
+          <h3 id="recipe-title"></h3>
+          <ol class="recipe-steps" id="recipe-steps"></ol>
+        </section>
       </section>
 
-      <section class="card" aria-labelledby="drinks-title">
-        <div class="section-title">
-          <div>
-            <h2 id="drinks-title">Drink Lineup</h2>
-            <p class="helper-text">Each drink shows its espresso-to-milk balance and texture goals.</p>
-          </div>
-        </div>
-        <div class="recipe-status is-hidden" id="drinks-status" aria-live="polite"></div>
-        <div class="drink-grid" id="drinks-grid" aria-live="polite"></div>
-      </section>
+      <section class="app-view" id="view-dialin" data-view="dialin">
+        <header class="header">
+          <p class="eyebrow">Dial-In Helper</p>
+          <h1>Dial in your espresso in minutes.</h1>
+          <p>
+            Share your shot details and get a focused adjustment recommendation for the next pull.
+          </p>
+        </header>
 
-      <section
-        class="card is-hidden"
-        id="recipe-detail"
-        aria-labelledby="recipe-detail-title"
-        aria-hidden="true"
-      >
-        <div class="section-title">
-          <div>
-            <h2 id="recipe-detail-title">Recipe Steps</h2>
-            <p class="helper-text" id="recipe-summary"></p>
-          </div>
-        </div>
-        <h3 id="recipe-title"></h3>
-        <ol class="recipe-steps" id="recipe-steps"></ol>
+        <section class="card" aria-labelledby="inputs-title">
+          <h2 id="inputs-title">Dial-in details</h2>
+          <form id="dialin-form" autocomplete="off">
+            <div class="grid">
+              <label>
+                Machine
+                <select id="machine">
+                  <option value="Breville Bambino" selected>Breville Bambino</option>
+                  <option value="Breville Barista Express">Breville Barista Express</option>
+                  <option value="Gaggia Classic">Gaggia Classic</option>
+                  <option value="Rancilio Silvia">Rancilio Silvia</option>
+                </select>
+              </label>
+
+              <label>
+                Basket size (g)
+                <input id="basket" type="number" min="10" max="24" step="0.1" value="18" />
+              </label>
+
+              <label>
+                Dose in (g)
+                <input id="dose" type="number" min="10" max="24" step="0.1" value="18" />
+              </label>
+
+              <label>
+                Yield out (g)
+                <input id="yield" type="number" min="20" max="60" step="0.1" value="36" />
+              </label>
+
+              <label>
+                Time (s)
+                <input id="time" type="number" min="10" max="60" step="1" value="28" />
+              </label>
+
+              <label>
+                Roast level
+                <select id="roast">
+                  <option value="light">Light</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </label>
+
+              <label>
+                Grinder type
+                <select id="grinder">
+                  <option value="Baratza Encore ESP" selected>Baratza Encore ESP</option>
+                  <option value="1Zpresso manual">1Zpresso manual</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="actions" role="group" aria-label="Form actions">
+              <button type="button" id="get-guidance">Get Guidance</button>
+              <button type="button" id="reset" disabled>Reset</button>
+              <button type="button" id="share" disabled>Share</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card is-hidden" id="output-card" aria-labelledby="guidance-title" aria-hidden="true">
+          <h2 id="guidance-title">Guidance</h2>
+          <p class="helper-text">
+            Guidance is based on your brew ratio (yield / dose) and shot time vs the 1:2, 25-30s target.
+          </p>
+          <ul id="guidance"></ul>
+          <div class="next-adjustment" id="next-adjustment"></div>
+        </section>
       </section>
     </main>
 

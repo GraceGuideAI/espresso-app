@@ -9,6 +9,8 @@ const outputCard = document.getElementById("output-card");
 const sidebarToggle = document.getElementById("sidebar-toggle");
 const sidebarClose = document.getElementById("sidebar-close");
 const sidebarOverlay = document.getElementById("sidebar-overlay");
+const viewLinks = Array.from(document.querySelectorAll("[data-view-target]"));
+const views = Array.from(document.querySelectorAll(".app-view"));
 
 const recipesForm = document.getElementById("recipes-form");
 const generateDrinksButton = document.getElementById("generate-drinks");
@@ -18,6 +20,13 @@ const recipeDetail = document.getElementById("recipe-detail");
 const recipeTitle = document.getElementById("recipe-title");
 const recipeSummary = document.getElementById("recipe-summary");
 const recipeSteps = document.getElementById("recipe-steps");
+
+const machineTypeInputs = Array.from(document.querySelectorAll('input[name="machine-type"]'));
+const grinderTypeInputs = Array.from(document.querySelectorAll('input[name="grinder-type"]'));
+const milkFrothingInputs = Array.from(document.querySelectorAll('input[name="milk-frothing"]'));
+const basketSizeInput = document.getElementById("basket-size");
+const basketSizeOutput = document.getElementById("basket-size-output");
+const recipeMachineSelect = document.getElementById("recipe-machine");
 
 const defaults = {
   machine: "Breville Bambino",
@@ -39,14 +48,12 @@ const fields = {
   grinder: document.getElementById("grinder"),
 };
 
-const recipeFields = {
-  machine: document.getElementById("recipe-machine"),
-  grinder: document.getElementById("recipe-grinder"),
-  milkCapability: document.getElementById("recipe-milk-capability"),
-  beanType: document.getElementById("recipe-bean-type"),
-  roast: document.getElementById("recipe-roast"),
-  latteArt: document.getElementById("recipe-latte-art"),
+const machineDefaultsByType = {
+  "semi-auto": "Breville Bambino",
+  manual: "Rancilio Silvia",
 };
+
+let machineModelTouched = false;
 
 const target = {
   ratio: 2.0,
@@ -62,7 +69,7 @@ const formatNumber = (value, digits = 1) => {
   return Number(value).toFixed(digits);
 };
 
-const formatOz = (value, suffix = "oz") => {
+const formatOz = (value, suffix = "fl oz") => {
   if (!Number.isFinite(value)) return "-";
   return `${formatNumber(value, 1)} ${suffix}`;
 };
@@ -77,14 +84,25 @@ const getValues = () => ({
   grinder: fields.grinder.value,
 });
 
-const getRecipeValues = () => ({
-  machine: recipeFields.machine.value,
-  grinder: recipeFields.grinder.value.trim(),
-  milkCapability: recipeFields.milkCapability.value,
-  beanType: recipeFields.beanType.value.trim(),
-  roast: recipeFields.roast.value,
-  latteArt: recipeFields.latteArt.checked,
-});
+const getCheckedValue = (inputs) => inputs.find((input) => input.checked)?.value;
+
+const getRecipeValues = () => {
+  const machineType = getCheckedValue(machineTypeInputs) || "semi-auto";
+  const grinderType = getCheckedValue(grinderTypeInputs) || "burr";
+  const milkFrothing = getCheckedValue(milkFrothingInputs) || "steam";
+  const basketSize = Number(basketSizeInput?.value) || 18;
+  const machine = recipeMachineSelect?.value || machineDefaultsByType[machineType];
+
+  return {
+    machine,
+    grinder: grinderType === "burr" ? "Burr grinder" : "Pre-ground coffee",
+    milkCapability:
+      milkFrothing === "steam" ? "steam wand" : milkFrothing === "frother" ? "auto milk" : "no milk",
+    beanType: `House blend (${basketSize}g basket)`,
+    roast: "medium",
+    latteArt: false,
+  };
+};
 
 const getGrindGuidance = ({ ratio, time }) => {
   if (time < target.timeMin || ratio > target.ratio + 0.2) {
@@ -223,6 +241,18 @@ const setSidebarOpen = (isOpen) => {
   document.getElementById("sidebar").setAttribute("aria-hidden", String(!isOpen));
 };
 
+const setActiveView = (viewId) => {
+  views.forEach((view) => {
+    const isActive = view.dataset.view === viewId;
+    view.classList.toggle("is-active", isActive);
+    view.setAttribute("aria-hidden", String(!isActive));
+  });
+
+  viewLinks.forEach((link) => {
+    link.classList.toggle("is-active", link.dataset.viewTarget === viewId);
+  });
+};
+
 const setDrinksStatus = (message, isVisible = true) => {
   drinksStatus.textContent = message;
   drinksStatus.classList.toggle("is-hidden", !isVisible);
@@ -232,7 +262,7 @@ const setDrinksLoading = (isLoading) => {
   generateDrinksButton.disabled = isLoading;
   generateDrinksButton.textContent = isLoading
     ? "Generating Drinks..."
-    : "Generate Drinks";
+    : "Next: Get Recipes ✨";
 };
 
 const getDrinkTint = (drink) => {
@@ -327,8 +357,8 @@ const fetchDrinks = async () => {
 
 const handleGenerateDrinks = async () => {
   const values = getRecipeValues();
-  if (!values.grinder || !values.beanType) {
-    setDrinksStatus("Please fill in grinder and bean type.");
+  if (!values.machine || !values.grinder || !values.milkCapability) {
+    setDrinksStatus("Please pick your equipment setup.");
     return;
   }
 
@@ -409,7 +439,10 @@ getGuidanceButton.addEventListener("click", handleGetGuidance);
 resetButton.addEventListener("click", resetForm);
 shareButton.addEventListener("click", shareSummary);
 
-sidebarToggle.addEventListener("click", () => setSidebarOpen(true));
+sidebarToggle.addEventListener("click", () => {
+  const isOpen = document.body.classList.contains("sidebar-open");
+  setSidebarOpen(!isOpen);
+});
 sidebarClose.addEventListener("click", () => setSidebarOpen(false));
 sidebarOverlay.addEventListener("click", () => setSidebarOpen(false));
 
@@ -417,5 +450,35 @@ recipesForm.addEventListener("submit", (event) => event.preventDefault());
 generateDrinksButton.addEventListener("click", handleGenerateDrinks);
 drinksGrid.addEventListener("click", handleDrinkClick);
 
+viewLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    setActiveView(link.dataset.viewTarget);
+    setSidebarOpen(false);
+  });
+});
+
+if (recipeMachineSelect) {
+  recipeMachineSelect.addEventListener("change", () => {
+    machineModelTouched = true;
+  });
+}
+
+machineTypeInputs.forEach((input) => {
+  input.addEventListener("change", () => {
+    if (!machineModelTouched && recipeMachineSelect) {
+      recipeMachineSelect.value = machineDefaultsByType[input.value] || recipeMachineSelect.value;
+    }
+  });
+});
+
+if (basketSizeInput && basketSizeOutput) {
+  const updateBasketOutput = () => {
+    basketSizeOutput.textContent = basketSizeInput.value;
+  };
+  updateBasketOutput();
+  basketSizeInput.addEventListener("input", updateBasketOutput);
+}
+
 setGuidanceVisibility(false);
 setSidebarOpen(false);
+setActiveView("recipes");
