@@ -590,12 +590,12 @@ button:focus-visible {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 20px;
+  padding: 24px 20px;
   border: 1px solid var(--border);
   border-radius: 16px;
   background: linear-gradient(140deg, var(--bg-soft), #f6e9db);
   max-width: 100%;
-  height: 140px;
+  height: 150px;
   overflow: hidden;
 }
 
@@ -636,11 +636,43 @@ button:focus-visible {
   position: relative;
 }
 
+.espresso-hero-media {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
 .espresso-hero-image {
   width: 100%;
   height: auto;
   object-fit: contain;
   animation: float 3s ease-in-out infinite;
+  mix-blend-mode: darken;
+}
+
+.espresso-hero-steam {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  pointer-events: none;
+}
+
+.steam-wisp {
+  fill: none;
+  stroke: rgba(139, 119, 101, 0.4);
+  stroke-width: 2px;
+  stroke-linecap: round;
+  animation: steam-rise 2s ease-in-out infinite;
+}
+
+.steam-2 {
+  animation-delay: 0.3s;
+}
+
+.steam-3 {
+  animation-delay: 0.6s;
 }
 
 @keyframes float {
@@ -696,15 +728,15 @@ form#recipes-form {
 
 @keyframes steam-rise {
   0% {
-    opacity: 0;
-    transform: translateY(6px);
+    opacity: 0.4;
+    transform: translateY(0px);
   }
-  40% {
-    opacity: 0.8;
+  60% {
+    opacity: 0.2;
   }
   100% {
     opacity: 0;
-    transform: translateY(-12px);
+    transform: translateY(-10px);
   }
 }
 
