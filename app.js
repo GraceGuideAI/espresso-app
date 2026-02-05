@@ -86,9 +86,9 @@ const machineDefaultsByType = {
 
 const machineProfiles = {
   "Semi-Auto (Generic)": { type: "semi-auto", grinder: "burr", milk: "steam", basket: 18 },
-  "Automatic (Generic)": { type: "automatic", grinder: "burr", milk: "steam", basket: 18 },
-  "Super-Auto (Generic)": { type: "super-auto", grinder: "built-in", milk: "frother", basket: 14 },
-  "DeLonghi Magnifica Evo (non-LatteCrema version)": { type: "super-auto", grinder: "built-in", milk: "frother", basket: 14 },
+  "Automatic (Generic)": { type: "automatic", grinder: "burr", milk: "panarello", basket: 18 },
+  "Super-Auto (Generic)": { type: "super-auto", grinder: "built-in", milk: "carafe", basket: 14 },
+  "DeLonghi Magnifica Evo (non-LatteCrema version)": { type: "super-auto", grinder: "built-in", milk: "panarello", basket: 14 },
   "Breville Bambino": { type: "semi-auto", grinder: "burr", milk: "steam", basket: 18 },
   "Gaggia Classic Pro": { type: "semi-auto", grinder: "burr", milk: "steam", basket: 18 },
   "Lelit Anna": { type: "semi-auto", grinder: "burr", milk: "steam", basket: 18 },
@@ -96,8 +96,274 @@ const machineProfiles = {
   "Smeg Semi-Pro": { type: "semi-auto", grinder: "burr", milk: "steam", basket: 18 },
   "Lelit MaraX": { type: "semi-auto", grinder: "burr", milk: "steam", basket: 18 },
   "Rocket Appartamento": { type: "semi-auto", grinder: "burr", milk: "steam", basket: 18 },
-  "Miele CM6360": { type: "super-auto", grinder: "built-in", milk: "frother", basket: 14 },
+  "Miele CM6360": { type: "super-auto", grinder: "built-in", milk: "carafe", basket: 14 },
   "La Marzocco Linea Mini": { type: "semi-auto", grinder: "burr", milk: "steam", basket: 18 },
+};
+
+// Drink illustration SVGs - cute minimalist cup drawings
+const drinkIllustrations = {
+  espresso: `
+    <svg class="drink-cup-svg" viewBox="0 0 60 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="espressoCup" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f5ebe0"/>
+          <stop offset="100%" stop-color="#e8dcd0"/>
+        </linearGradient>
+        <linearGradient id="cremaGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#d4a574"/>
+          <stop offset="100%" stop-color="#8b5a2b"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="30" cy="68" rx="22" ry="4" fill="#d4c4b5" opacity="0.4"/>
+      <path d="M12 30 L16 65 Q30 70 44 65 L48 30" fill="url(#espressoCup)" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="30" rx="18" ry="6" fill="#fff8f0" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="38" rx="14" ry="4" fill="url(#cremaGrad)"/>
+      <ellipse cx="30" cy="36" rx="12" ry="3" fill="#d4a574" opacity="0.6"/>
+      <path d="M48 36 Q58 36 58 46 Q58 56 48 56" fill="none" stroke="#c9b8a8" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="26" cy="32" rx="4" ry="1.5" fill="#fff" opacity="0.4"/>
+    </svg>
+  `,
+  doppio: `
+    <svg class="drink-cup-svg" viewBox="0 0 60 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="doppioCup" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f5ebe0"/>
+          <stop offset="100%" stop-color="#e8dcd0"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="30" cy="70" rx="20" ry="4" fill="#d4c4b5" opacity="0.4"/>
+      <path d="M14 26 L17 66 Q30 71 43 66 L46 26" fill="url(#doppioCup)" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="26" rx="16" ry="5" fill="#fff8f0" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="42" rx="12" ry="4" fill="#8b5a2b"/>
+      <ellipse cx="30" cy="38" rx="12" ry="3" fill="#d4a574"/>
+      <ellipse cx="30" cy="36" rx="10" ry="2.5" fill="#c9956c" opacity="0.7"/>
+      <path d="M46 32 Q56 32 56 44 Q56 56 46 56" fill="none" stroke="#c9b8a8" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="26" cy="28" rx="4" ry="1.5" fill="#fff" opacity="0.4"/>
+    </svg>
+  `,
+  americano: `
+    <svg class="drink-cup-svg" viewBox="0 0 60 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="americanoGlass" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fff8f0" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#f0e6dc" stop-opacity="0.8"/>
+        </linearGradient>
+        <linearGradient id="americanoLiquid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#6b4423"/>
+          <stop offset="100%" stop-color="#3d2314"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="30" cy="74" rx="18" ry="3" fill="#d4c4b5" opacity="0.4"/>
+      <path d="M14 14 L18 72 Q30 76 42 72 L46 14" fill="url(#americanoGlass)" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="14" rx="16" ry="4" fill="#fff8f0" stroke="#c9b8a8" stroke-width="1.5"/>
+      <path d="M19 50 Q30 52 41 50 L42 72 Q30 76 18 72 Z" fill="url(#americanoLiquid)"/>
+      <ellipse cx="30" cy="50" rx="11" ry="3" fill="#8b5a2b"/>
+      <path d="M22 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+    </svg>
+  `,
+  cappuccino: `
+    <svg class="drink-cup-svg" viewBox="0 0 60 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="cappCup" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f5ebe0"/>
+          <stop offset="100%" stop-color="#e8dcd0"/>
+        </linearGradient>
+        <linearGradient id="foamGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fffaf5"/>
+          <stop offset="100%" stop-color="#f5e6d8"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="30" cy="72" rx="24" ry="4" fill="#d4c4b5" opacity="0.4"/>
+      <path d="M8 32 L12 68 Q30 74 48 68 L52 32" fill="url(#cappCup)" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="32" rx="22" ry="7" fill="url(#foamGrad)" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="54" rx="16" ry="5" fill="#3d2314"/>
+      <ellipse cx="30" cy="46" rx="17" ry="5" fill="#f5e6d8"/>
+      <ellipse cx="30" cy="34" rx="18" ry="5" fill="url(#foamGrad)"/>
+      <path d="M24 34 Q30 40 36 34" fill="none" stroke="#d4a574" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+      <circle cx="30" cy="36" r="3" fill="#c9956c" opacity="0.4"/>
+      <path d="M52 38 Q64 38 64 52 Q64 66 52 66" fill="none" stroke="#c9b8a8" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="24" cy="30" rx="5" ry="2" fill="#fff" opacity="0.5"/>
+    </svg>
+  `,
+  latte: `
+    <svg class="drink-cup-svg" viewBox="0 0 60 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="latteGlass" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fff8f0" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#f0e6dc" stop-opacity="0.75"/>
+        </linearGradient>
+        <linearGradient id="latteMilk" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fff5e6"/>
+          <stop offset="100%" stop-color="#f5e0c8"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="30" cy="76" rx="16" ry="3" fill="#d4c4b5" opacity="0.4"/>
+      <path d="M16 10 L19 74 Q30 78 41 74 L44 10" fill="url(#latteGlass)" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="10" rx="14" ry="4" fill="#fff8f0" stroke="#c9b8a8" stroke-width="1.5"/>
+      <rect x="20" y="60" width="20" height="14" rx="2" fill="#3d2314"/>
+      <rect x="20" y="24" width="20" height="36" rx="2" fill="url(#latteMilk)"/>
+      <ellipse cx="30" cy="18" rx="10" ry="3" fill="#fffaf5"/>
+      <path d="M26 18 Q30 22 34 18" fill="none" stroke="#d4a574" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+      <path d="M22 14h16" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+    </svg>
+  `,
+  "flat white": `
+    <svg class="drink-cup-svg" viewBox="0 0 60 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="fwCup" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f5ebe0"/>
+          <stop offset="100%" stop-color="#e8dcd0"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="30" cy="70" rx="22" ry="4" fill="#d4c4b5" opacity="0.4"/>
+      <path d="M10 30 L14 66 Q30 72 46 66 L50 30" fill="url(#fwCup)" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="30" rx="20" ry="6" fill="#fff8f0" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="52" rx="14" ry="4" fill="#3d2314"/>
+      <ellipse cx="30" cy="40" rx="15" ry="5" fill="#fff5e6"/>
+      <ellipse cx="30" cy="34" rx="16" ry="4" fill="#fffaf5"/>
+      <path d="M26 34c2 3 6 3 8 0" fill="none" stroke="#c9956c" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M50 36 Q62 36 62 50 Q62 64 50 64" fill="none" stroke="#c9b8a8" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="24" cy="30" rx="5" ry="2" fill="#fff" opacity="0.5"/>
+    </svg>
+  `,
+  cortado: `
+    <svg class="drink-cup-svg" viewBox="0 0 60 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="cortadoGlass" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fff8f0" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#f0e6dc" stop-opacity="0.8"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="30" cy="68" rx="18" ry="3" fill="#d4c4b5" opacity="0.4"/>
+      <path d="M14 24 L17 66 Q30 70 43 66 L46 24" fill="url(#cortadoGlass)" stroke="#c9b8a8" stroke-width="1.5"/>
+      <path d="M14 24 L15 34 M46 24 L45 34 M14 44 L15 54 M46 44 L45 54" stroke="#c9b8a8" stroke-width="1" opacity="0.4"/>
+      <ellipse cx="30" cy="24" rx="16" ry="4" fill="#fff8f0" stroke="#c9b8a8" stroke-width="1.5"/>
+      <rect x="18" y="48" width="24" height="18" rx="2" fill="#3d2314"/>
+      <rect x="18" y="32" width="24" height="16" rx="2" fill="#fff5e6"/>
+      <ellipse cx="30" cy="30" rx="12" ry="3" fill="#fffaf5"/>
+      <path d="M24 14h12" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+    </svg>
+  `,
+  macchiato: `
+    <svg class="drink-cup-svg" viewBox="0 0 60 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="macCup" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f5ebe0"/>
+          <stop offset="100%" stop-color="#e8dcd0"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="30" cy="66" rx="18" ry="3" fill="#d4c4b5" opacity="0.4"/>
+      <path d="M14 32 L17 62 Q30 67 43 62 L46 32" fill="url(#macCup)" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="32" rx="16" ry="5" fill="#fff8f0" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="46" rx="12" ry="4" fill="#3d2314"/>
+      <ellipse cx="30" cy="42" rx="10" ry="3" fill="#8b5a2b"/>
+      <ellipse cx="30" cy="36" rx="8" ry="4" fill="#fffaf5"/>
+      <circle cx="30" cy="36" r="3" fill="#f5e6d8"/>
+      <path d="M46 38 Q56 38 56 48 Q56 58 46 58" fill="none" stroke="#c9b8a8" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="26" cy="30" rx="4" ry="1.5" fill="#fff" opacity="0.4"/>
+    </svg>
+  `,
+  mocha: `
+    <svg class="drink-cup-svg" viewBox="0 0 60 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="mochaMug" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f5ebe0"/>
+          <stop offset="100%" stop-color="#e8dcd0"/>
+        </linearGradient>
+        <linearGradient id="mochaLiquid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#5c3d2e"/>
+          <stop offset="100%" stop-color="#2d1810"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="30" cy="74" rx="20" ry="3" fill="#d4c4b5" opacity="0.4"/>
+      <path d="M12 18 L15 70 Q30 76 45 70 L48 18" fill="url(#mochaMug)" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="18" rx="18" ry="5" fill="#fff8f0" stroke="#c9b8a8" stroke-width="1.5"/>
+      <rect x="16" y="40" width="28" height="30" rx="3" fill="url(#mochaLiquid)"/>
+      <ellipse cx="30" cy="28" rx="12" ry="6" fill="#fffaf5"/>
+      <ellipse cx="30" cy="26" rx="10" ry="5" fill="#fff"/>
+      <path d="M26 24c2-2 6-2 8 0" fill="none" stroke="#5c3d2e" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
+      <circle cx="28" cy="28" r="2" fill="#5c3d2e" opacity="0.3"/>
+      <circle cx="32" cy="26" r="1.5" fill="#5c3d2e" opacity="0.3"/>
+      <path d="M48 26 Q60 26 60 42 Q60 58 48 58" fill="none" stroke="#c9b8a8" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="25" cy="20" rx="5" ry="2" fill="#fff" opacity="0.5"/>
+    </svg>
+  `,
+  affogato: `
+    <svg class="drink-cup-svg" viewBox="0 0 60 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="affogatoGlass" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fff8f0" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#f0e6dc" stop-opacity="0.8"/>
+        </linearGradient>
+        <linearGradient id="gelatoGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fffef8"/>
+          <stop offset="100%" stop-color="#f5e6d0"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="30" cy="74" rx="18" ry="3" fill="#d4c4b5" opacity="0.4"/>
+      <path d="M14 20 L18 72 Q30 76 42 72 L46 20" fill="url(#affogatoGlass)" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="20" rx="16" ry="4" fill="#fff8f0" stroke="#c9b8a8" stroke-width="1.5"/>
+      <rect x="19" y="50" width="22" height="22" rx="2" fill="#3d2314"/>
+      <ellipse cx="30" cy="50" rx="10" ry="3" fill="#6b4423"/>
+      <ellipse cx="30" cy="32" rx="12" ry="10" fill="url(#gelatoGrad)"/>
+      <ellipse cx="30" cy="28" rx="10" ry="8" fill="#fffef8"/>
+      <path d="M24 30c3-4 9-4 12 0" fill="none" stroke="#e8dcd0" stroke-width="1.5" stroke-linecap="round"/>
+      <ellipse cx="26" cy="26" rx="3" ry="2" fill="#fff" opacity="0.6"/>
+      <path d="M38 34 L44 28" stroke="#6b4423" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+      <path d="M22 14h16" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+    </svg>
+  `,
+  ristretto: `
+    <svg class="drink-cup-svg" viewBox="0 0 60 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="ristCup" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f5ebe0"/>
+          <stop offset="100%" stop-color="#e8dcd0"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="30" cy="66" rx="18" ry="3" fill="#d4c4b5" opacity="0.4"/>
+      <path d="M14 34 L17 62 Q30 67 43 62 L46 34" fill="url(#ristCup)" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="34" rx="16" ry="5" fill="#fff8f0" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="50" rx="12" ry="3" fill="#2d1810"/>
+      <ellipse cx="30" cy="46" rx="11" ry="3" fill="#5c3d2e"/>
+      <ellipse cx="30" cy="42" rx="10" ry="3" fill="#8b5a2b"/>
+      <path d="M46 40 Q56 40 56 50 Q56 58 46 58" fill="none" stroke="#c9b8a8" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="26" cy="32" rx="4" ry="1.5" fill="#fff" opacity="0.4"/>
+    </svg>
+  `,
+  default: `
+    <svg class="drink-cup-svg" viewBox="0 0 60 80" aria-hidden="true">
+      <defs>
+        <linearGradient id="defCup" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f5ebe0"/>
+          <stop offset="100%" stop-color="#e8dcd0"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="30" cy="70" rx="20" ry="4" fill="#d4c4b5" opacity="0.4"/>
+      <path d="M12 28 L16 66 Q30 72 44 66 L48 28" fill="url(#defCup)" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="28" rx="18" ry="6" fill="#fff8f0" stroke="#c9b8a8" stroke-width="1.5"/>
+      <ellipse cx="30" cy="50" rx="14" ry="4" fill="#3d2314"/>
+      <ellipse cx="30" cy="44" rx="14" ry="4" fill="#8b5a2b"/>
+      <path d="M48 34 Q60 34 60 48 Q60 62 48 62" fill="none" stroke="#c9b8a8" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="25" cy="26" rx="5" ry="2" fill="#fff" opacity="0.4"/>
+    </svg>
+  `
+};
+
+const getDrinkIllustration = (drinkName) => {
+  const name = (drinkName || "").toLowerCase();
+  if (name.includes("espresso") && !name.includes("doppio")) return drinkIllustrations.espresso;
+  if (name.includes("doppio") || name.includes("double")) return drinkIllustrations.doppio;
+  if (name.includes("americano") || name.includes("long black")) return drinkIllustrations.americano;
+  if (name.includes("cappuccino")) return drinkIllustrations.cappuccino;
+  if (name.includes("latte") && !name.includes("flat")) return drinkIllustrations.latte;
+  if (name.includes("flat white")) return drinkIllustrations["flat white"];
+  if (name.includes("cortado")) return drinkIllustrations.cortado;
+  if (name.includes("macchiato")) return drinkIllustrations.macchiato;
+  if (name.includes("mocha")) return drinkIllustrations.mocha;
+  if (name.includes("affogato")) return drinkIllustrations.affogato;
+  if (name.includes("ristretto")) return drinkIllustrations.ristretto;
+  return drinkIllustrations.default;
 };
 
 const machineCapabilitiesByType = {
@@ -319,12 +585,21 @@ const getValues = () => ({
 
 const getCheckedValue = (inputs) => inputs.find((input) => input.checked)?.value;
 
+const milkCapabilityLabels = {
+  steam: "steam wand (manual)",
+  panarello: "panarello wand (assisted)",
+  carafe: "automatic carafe",
+  cappuccinatore: "cappuccinatore (auto siphon)",
+  manual: "manual frother (separate)",
+  none: "no milk frothing"
+};
+
 const getRecipeValues = () => {
   const selectedMachine = recipeMachineSelect?.value || machineDefaultsByType["semi-auto"];
   const profile = machineProfiles[selectedMachine];
   const machineType = profile?.type || getCheckedValue(machineTypeInputs) || "semi-auto";
   const grinderType = profile?.grinder || getCheckedValue(grinderTypeInputs) || "burr";
-  const milkFrothing = profile?.milk || getCheckedValue(milkFrothingInputs) || "steam";
+  const milkFrothing = getCheckedValue(milkFrothingInputs) || profile?.milk || "steam";
   const basketSize = profile?.basket || 18;
   const machine = selectedMachine;
   const machineCapabilities = machineCapabilitiesByType[machineType] || machineCapabilitiesByType["semi-auto"];
@@ -340,17 +615,20 @@ const getRecipeValues = () => {
   const freshness = getCheckedValue(freshnessInputs) || "0-7";
   const waterType = getCheckedValue(waterTypeInputs) || "filtered";
 
+  const hasMilkCapability = milkFrothing !== "none";
+
   return {
     machine,
     grinder: grinderLabels[grinderType] || grinderLabels.burr,
-    milkCapability:
-      milkFrothing === "steam" ? "steam wand" : milkFrothing === "frother" ? "auto milk" : "no milk",
+    milkCapability: milkCapabilityLabels[milkFrothing] || "steam wand (manual)",
+    milkType: milkFrothing,
+    hasMilkCapability,
     beanType: `House blend (${basketSize}g basket)`,
     roast: roastLevel,
     grindRange,
     freshness,
     waterType,
-    latteArt: Boolean(latteArtInput?.checked),
+    latteArt: Boolean(latteArtInput?.checked) && hasMilkCapability,
     machineCapabilities,
   };
 };
@@ -598,18 +876,12 @@ const renderDrinks = (drinks) => {
     const hero = document.createElement("div");
     hero.className = "drink-hero";
 
-    const illustration = document.createElement("div");
-    illustration.className = `drink-illustration drink-illustration--${drink.glass}`;
-    illustration.innerHTML = `<div class="drink-illustration__liquid"></div>`;
+    // Use the new SVG illustrations
+    const illustrationWrapper = document.createElement("div");
+    illustrationWrapper.className = "drink-illustration-wrapper";
+    illustrationWrapper.innerHTML = getDrinkIllustration(drink.name);
 
-    const layers = getDrinkLayers(drink);
-    illustration.style.setProperty("--water-stop", `${layers.waterStop}%`);
-    illustration.style.setProperty("--espresso-stop", `${layers.espressoStop}%`);
-    illustration.style.setProperty("--milk-stop", `${layers.milkStop}%`);
-    illustration.style.setProperty("--crema-stop", `${layers.cremaStop}%`);
-    illustration.style.setProperty("--foam-stop", `${layers.foamStop}%`);
-
-    hero.appendChild(illustration);
+    hero.appendChild(illustrationWrapper);
 
     const detailsId = `drink-details-${drink.id}`;
 
@@ -810,7 +1082,7 @@ const handleGenerateDrinks = async () => {
     activeDrinkId = null;
 
     let filtered = drinks;
-    if (values.milkCapability === "no milk") {
+    if (!values.hasMilkCapability) {
       filtered = drinks.filter((drink) => !drink.milkRequired);
     }
 
@@ -1005,7 +1277,9 @@ if (recipeMachineSelect) {
     if (!profile) return;
     machineTypeInputs.forEach((input) => (input.checked = input.value === profile.type));
     grinderTypeInputs.forEach((input) => (input.checked = input.value === profile.grinder));
-    milkFrothingInputs.forEach((input) => (input.checked = input.value === profile.milk));
+    // Sync milk frothing - check if the profile milk type exists, otherwise default to steam
+    const milkValue = profile.milk || "steam";
+    milkFrothingInputs.forEach((input) => (input.checked = input.value === milkValue));
   });
 }
 
