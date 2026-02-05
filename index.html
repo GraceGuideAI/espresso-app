@@ -3,40 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Espresso Toolkit - AI-powered recipe maker and dial-in helper for the perfect espresso" />
-    <meta name="theme-color" content="#b8956b" />
-    <title>Espresso Toolkit | AI Recipe Maker & Dial-In Helper</title>
+    <title>AI Recipe Maker</title>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
   <body>
-    <!-- Desktop Navigation Header -->
-    <header class="nav-header" role="banner">
-      <div class="nav-header-inner">
-        <div class="nav-brand">
-          <div class="nav-brand-icon" aria-hidden="true">☕</div>
-          <span class="nav-brand-text">Espresso Toolkit</span>
-        </div>
-        <nav class="nav-tabs" role="tablist" aria-label="Main navigation">
-          <button class="nav-tab is-active" type="button" data-view-target="recipes" role="tab" aria-selected="true">
-            AI Recipe Maker
-          </button>
-          <button class="nav-tab" type="button" data-view-target="dialin" role="tab" aria-selected="false">
-            Dial-In Helper
-          </button>
-        </nav>
-      </div>
-    </header>
-
-    <!-- Mobile Sidebar Toggle -->
     <button
       class="sidebar-toggle"
       id="sidebar-toggle"
       aria-controls="sidebar"
       aria-expanded="false"
       type="button"
-      aria-label="Open navigation menu"
     >
       <span class="hamburger" aria-hidden="true">
         <span></span>
@@ -46,65 +22,57 @@
       <span class="toggle-text">Menu</span>
     </button>
 
-    <!-- Mobile Sidebar -->
-    <aside class="sidebar" id="sidebar" aria-hidden="true" role="dialog" aria-label="Navigation menu">
+    <aside class="sidebar" id="sidebar" aria-hidden="true">
       <div class="sidebar-header">
         <div>
           <p class="eyebrow">Espresso Toolkit</p>
-          <h2>Navigation</h2>
+          <h2>Dial-In & Recipes</h2>
         </div>
         <button class="sidebar-close" id="sidebar-close" type="button" aria-label="Close menu">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M18 6L6 18M6 6l12 12"/>
-          </svg>
+          x
         </button>
       </div>
 
       <nav class="sidebar-nav" aria-label="Primary">
         <button class="sidebar-link is-active" type="button" data-view-target="recipes">
-          <span aria-hidden="true">☕</span> AI Recipe Maker
+          AI Recipe Maker
         </button>
         <button class="sidebar-link" type="button" data-view-target="dialin">
-          <span aria-hidden="true">⚙️</span> Dial-In Helper
+          Dial-In Helper
         </button>
       </nav>
     </aside>
 
     <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
 
-    <!-- Main Content -->
-    <main class="container" role="main">
-      <!-- View: AI Recipe Maker -->
-      <section class="app-view is-active" id="view-recipes" data-view="recipes" aria-labelledby="view-recipes-title">
-        <h1 id="view-recipes-title" class="visually-hidden">AI Recipe Maker</h1>
-
-        <!-- Setup Card -->
+    <main class="container">
+      <section class="app-view is-active" id="view-recipes" data-view="recipes">
         <section class="setup-card" aria-labelledby="setup-title">
           <header class="setup-hero">
             <div class="setup-hero-text">
-              <p class="eyebrow">Step 1 of 1</p>
+              <p class="eyebrow">STEP 1 OF 1</p>
               <div class="setup-title-row">
-                <h2 id="setup-title">What's your setup?</h2>
+                <h1 id="setup-title">What's your setup?</h1>
                 <span class="setup-icon" aria-hidden="true">
                   <svg viewBox="0 0 64 64" role="img" aria-hidden="true">
                     <path
                       d="M14 30h28c0 10-6 18-14 18s-14-8-14-18z"
                       fill="none"
-                      stroke="#8a837d"
+                      stroke="#A1A1A6"
                       stroke-width="2.2"
                       stroke-linejoin="round"
                     />
                     <path
                       d="M42 32h6c4 0 7 3 7 7s-3 7-7 7h-6"
                       fill="none"
-                      stroke="#8a837d"
+                      stroke="#A1A1A6"
                       stroke-width="2.2"
                       stroke-linecap="round"
                     />
                     <path
                       d="M12 50h36"
                       fill="none"
-                      stroke="#8a837d"
+                      stroke="#A1A1A6"
                       stroke-width="2.2"
                       stroke-linecap="round"
                     />
@@ -174,7 +142,7 @@
                       <path d="M10 18v2m4-2v2"></path>
                     </svg>
                   </span>
-                  <span>Super-Auto</span>
+                  <span>Super-Automatic</span>
                 </label>
               </div>
               <div class="helper-text">Optional: pick your exact machine model below.</div>
@@ -262,9 +230,8 @@
                     max="22"
                     step="1"
                     value="18"
-                    aria-label="Filter basket size in grams"
                   />
-                  <span class="slider-value"><output id="basket-size-output">18</output>g</span>
+                  <span class="slider-value"><output id="basket-size-output">18</output> g</span>
                 </div>
                 <div class="slider-meta">
                   <span>Single 14g</span>
@@ -319,14 +286,13 @@
                   id="milk-frothing-none"
                   value="none"
                 />
-                <label class="pill-option pill-icon-only" for="milk-frothing-none" aria-label="No milk frothing">
+                <label class="pill-option pill-icon-only" for="milk-frothing-none" aria-label="No milk">
                   <span class="pill-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                       <path d="M7 7l10 10"></path>
                       <path d="M17 7l-10 10"></path>
                     </svg>
                   </span>
-                  <span class="visually-hidden">None</span>
                 </label>
               </div>
             </div>
@@ -342,13 +308,12 @@
 
             <div class="actions">
               <button type="button" id="generate-drinks" class="cta-button">
-                Get Recipes
+                Next: Get Recipes ✨
               </button>
             </div>
           </form>
         </section>
 
-        <!-- Drink Lineup Card -->
         <section class="card" aria-labelledby="drinks-title">
           <div class="section-title">
             <div>
@@ -360,7 +325,6 @@
           <div class="drink-grid" id="drinks-grid" aria-live="polite"></div>
         </section>
 
-        <!-- Recipe Detail Card -->
         <section
           class="card is-hidden"
           id="recipe-detail"
@@ -378,11 +342,10 @@
         </section>
       </section>
 
-      <!-- View: Dial-In Helper -->
-      <section class="app-view" id="view-dialin" data-view="dialin" aria-labelledby="dialin-title">
+      <section class="app-view" id="view-dialin" data-view="dialin">
         <header class="header">
           <p class="eyebrow">Dial-In Helper</p>
-          <h1 id="dialin-title">Dial in your espresso in minutes</h1>
+          <h1>Dial in your espresso in minutes.</h1>
           <p>
             Share your shot details and get a focused adjustment recommendation for the next pull.
           </p>
@@ -441,9 +404,9 @@
             </div>
 
             <div class="actions" role="group" aria-label="Form actions">
-              <button type="button" id="get-guidance" class="btn-primary" style="width: auto;">Get Guidance</button>
-              <button type="button" id="reset" class="btn-ghost" disabled>Reset</button>
-              <button type="button" id="share" class="btn-secondary" disabled>Share</button>
+              <button type="button" id="get-guidance">Get Guidance</button>
+              <button type="button" id="reset" disabled>Reset</button>
+              <button type="button" id="share" disabled>Share</button>
             </div>
           </form>
         </section>
