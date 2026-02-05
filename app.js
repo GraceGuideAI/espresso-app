@@ -11,6 +11,8 @@ const sidebarClose = document.getElementById("sidebar-close");
 const sidebarOverlay = document.getElementById("sidebar-overlay");
 const viewLinks = Array.from(document.querySelectorAll("[data-view-target]"));
 const views = Array.from(document.querySelectorAll(".app-view"));
+const navTabs = Array.from(document.querySelectorAll(".nav-tab[data-view-target]"));
+const sidebarLinks = Array.from(document.querySelectorAll(".sidebar-link[data-view-target]"));
 
 const recipesForm = document.getElementById("recipes-form");
 const generateDrinksButton = document.getElementById("generate-drinks");
@@ -266,8 +268,16 @@ const setActiveView = (viewId) => {
     view.setAttribute("aria-hidden", String(!isActive));
   });
 
-  viewLinks.forEach((link) => {
+  // Update sidebar links
+  sidebarLinks.forEach((link) => {
     link.classList.toggle("is-active", link.dataset.viewTarget === viewId);
+  });
+
+  // Update desktop nav tabs
+  navTabs.forEach((tab) => {
+    const isActive = tab.dataset.viewTarget === viewId;
+    tab.classList.toggle("is-active", isActive);
+    tab.setAttribute("aria-selected", String(isActive));
   });
 };
 
@@ -278,9 +288,10 @@ const setDrinksStatus = (message, isVisible = true) => {
 
 const setDrinksLoading = (isLoading) => {
   generateDrinksButton.disabled = isLoading;
+  generateDrinksButton.classList.toggle("btn--loading", isLoading);
   generateDrinksButton.textContent = isLoading
-    ? "Generating Drinks..."
-    : "Next: Get Recipes ✨";
+    ? "Generating..."
+    : "Get Recipes";
 };
 
 const getDrinkTint = (drink) => {
@@ -476,10 +487,18 @@ recipesForm.addEventListener("submit", (event) => event.preventDefault());
 generateDrinksButton.addEventListener("click", handleGenerateDrinks);
 drinksGrid.addEventListener("click", handleDrinkClick);
 
-viewLinks.forEach((link) => {
+// Sidebar navigation links
+sidebarLinks.forEach((link) => {
   link.addEventListener("click", () => {
     setActiveView(link.dataset.viewTarget);
     setSidebarOpen(false);
+  });
+});
+
+// Desktop nav tabs
+navTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    setActiveView(tab.dataset.viewTarget);
   });
 });
 
