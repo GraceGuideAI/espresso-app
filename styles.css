@@ -354,8 +354,30 @@ button:focus-visible {
 .drink-hero {
   display: flex;
   justify-content: center;
+  padding: 8px 0;
 }
 
+/* New SVG drink illustrations */
+.drink-illustration-wrapper {
+  width: 60px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drink-cup-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 8px rgba(93, 64, 55, 0.12));
+  transition: transform 0.2s ease;
+}
+
+.drink-card:hover .drink-cup-svg {
+  transform: translateY(-2px);
+}
+
+/* Legacy illustration styles (kept for fallback) */
 .drink-illustration {
   position: relative;
   width: 60px;
@@ -707,7 +729,18 @@ button:focus-visible {
 }
 
 .drink-action.is-loading {
-  animation: pulse 1.1s ease-in-out infinite;
+  animation: buttonPulse 1.1s ease-in-out infinite;
+  background: var(--accent);
+  opacity: 0.85;
+}
+
+@keyframes buttonPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(176, 107, 63, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(176, 107, 63, 0);
+  }
 }
 
 .recipe-output.is-ready .recipe-hero {
@@ -1058,41 +1091,24 @@ body.brewing-active {
   height: auto;
 }
 
-.espresso-hero-media::after {
-  content: "";
-  position: absolute;
-  top: 6px;
-  right: 10px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(255, 224, 190, 0.75) 35%,
-    rgba(255, 224, 190, 0) 70%
-  );
-  animation: sparkle-pulse 2s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.espresso-hero-image {
+.espresso-machine-svg {
   width: 100%;
-  max-width: 140px;
+  max-width: 160px;
   height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 8px 24px rgba(93, 64, 55, 0.12));
+  filter: drop-shadow(0 8px 20px rgba(93, 64, 55, 0.15));
   animation: hero-float 4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-  mix-blend-mode: multiply;
 }
 
-.espresso-hero-steam {
-  position: absolute;
-  top: -8px;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  pointer-events: none;
+.machine-steam .steam-wisp {
+  animation: steam-rise 2.5s ease-in-out infinite;
+}
+
+.machine-steam .steam-2 {
+  animation-delay: 0.4s;
+}
+
+.machine-steam .steam-3 {
+  animation-delay: 0.8s;
 }
 
 .steam-wisp {
@@ -1279,14 +1295,69 @@ form#recipes-form {
 }
 
 
-.milk-frothing-group .pill-option {
-  font-size: 12px;
-  padding: 8px 12px;
+/* Milk Frothing Grid */
+.milk-frothing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.milk-option {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 6px;
+  padding: 12px 8px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
   text-align: center;
-  line-height: 1.2;
+  min-height: 72px;
+}
+
+.milk-option:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  transform: translateY(-1px);
+}
+
+.pill-input:checked + .milk-option {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, var(--accent-soft), #f3dbc6);
+  color: var(--accent-strong);
+  box-shadow: 0 4px 12px rgba(176, 107, 63, 0.15);
+}
+
+.milk-icon {
+  width: 24px;
+  height: 24px;
+  color: currentColor;
+}
+
+@media (max-width: 520px) {
+  .milk-frothing-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .milk-option {
+    padding: 10px 6px;
+    font-size: 0.68rem;
+    min-height: 64px;
+  }
+
+  .milk-icon {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .pill-option:hover {

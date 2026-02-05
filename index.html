@@ -59,15 +59,99 @@
             </div>
             <div class="setup-hero-art" aria-hidden="true">
               <div class="espresso-hero-media">
-                <img
-                  src="/espresso-machine.png"
-                  alt="Espresso machine illustration"
-                  class="espresso-hero-image"
-                />
-                <svg class="espresso-hero-steam" viewBox="0 0 120 60" aria-hidden="true">
-                  <path class="steam-wisp steam-1" d="M30 50c-6-10-2-18 6-26" />
-                  <path class="steam-wisp steam-2" d="M58 50c-6-10-2-18 6-26" />
-                  <path class="steam-wisp steam-3" d="M86 50c-6-10-2-18 6-26" />
+                <svg class="espresso-machine-svg" viewBox="0 0 160 180" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="machineBody" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#e8ddd4"/>
+                      <stop offset="50%" stop-color="#d4c4b5"/>
+                      <stop offset="100%" stop-color="#c9b8a8"/>
+                    </linearGradient>
+                    <linearGradient id="machineChrome" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#f5f0eb"/>
+                      <stop offset="40%" stop-color="#c9bfb4"/>
+                      <stop offset="100%" stop-color="#a89888"/>
+                    </linearGradient>
+                    <linearGradient id="portafilterMetal" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#d4ccc4"/>
+                      <stop offset="50%" stop-color="#a89080"/>
+                      <stop offset="100%" stop-color="#8b7968"/>
+                    </linearGradient>
+                    <linearGradient id="woodHandle" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#a67c52"/>
+                      <stop offset="50%" stop-color="#8b5a2b"/>
+                      <stop offset="100%" stop-color="#6d4320"/>
+                    </linearGradient>
+                    <linearGradient id="cupGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#fff8f0"/>
+                      <stop offset="100%" stop-color="#f5ebe0"/>
+                    </linearGradient>
+                    <linearGradient id="espressoLiquid" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#8b5a2b"/>
+                      <stop offset="100%" stop-color="#3d2314"/>
+                    </linearGradient>
+                    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#5d4037" flood-opacity="0.15"/>
+                    </filter>
+                  </defs>
+
+                  <!-- Machine body -->
+                  <rect x="20" y="20" width="120" height="100" rx="12" fill="url(#machineBody)" filter="url(#softShadow)"/>
+
+                  <!-- Top chrome trim -->
+                  <rect x="20" y="20" width="120" height="16" rx="8" fill="url(#machineChrome)"/>
+                  <rect x="28" y="24" width="40" height="8" rx="4" fill="#f8f4f0" opacity="0.6"/>
+
+                  <!-- Gauge/dial -->
+                  <circle cx="120" cy="50" r="14" fill="#f5f0eb" stroke="#c9b8a8" stroke-width="2"/>
+                  <circle cx="120" cy="50" r="10" fill="#fffaf5"/>
+                  <path d="M120 44 L120 50 L125 48" stroke="#b06b3f" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                  <circle cx="120" cy="50" r="2" fill="#b06b3f"/>
+
+                  <!-- Group head -->
+                  <rect x="55" y="75" width="50" height="18" rx="4" fill="url(#machineChrome)"/>
+                  <rect x="60" y="79" width="40" height="10" rx="3" fill="#a89888"/>
+                  <rect x="65" y="82" width="30" height="4" rx="2" fill="#8b7968"/>
+
+                  <!-- Portafilter -->
+                  <ellipse cx="80" cy="105" rx="28" ry="8" fill="url(#portafilterMetal)"/>
+                  <rect x="52" y="98" width="56" height="14" rx="4" fill="url(#portafilterMetal)"/>
+                  <ellipse cx="80" cy="112" rx="24" ry="6" fill="#7a6858"/>
+
+                  <!-- Portafilter handle -->
+                  <rect x="108" y="100" width="32" height="10" rx="5" fill="url(#woodHandle)"/>
+                  <rect x="110" y="102" width="8" height="6" rx="3" fill="#c9956c" opacity="0.4"/>
+
+                  <!-- Steam wand -->
+                  <rect x="28" y="70" width="6" height="35" rx="3" fill="url(#machineChrome)"/>
+                  <circle cx="31" cy="105" r="4" fill="#d4ccc4"/>
+                  <rect x="29" y="105" width="4" height="20" rx="2" fill="#c9bfb4"/>
+
+                  <!-- Drip tray -->
+                  <rect x="30" y="130" width="100" height="12" rx="4" fill="#d4c4b5"/>
+                  <rect x="35" y="133" width="90" height="6" rx="2" fill="#c9b8a8"/>
+
+                  <!-- Cup -->
+                  <ellipse cx="80" cy="148" rx="18" ry="4" fill="#e0d5ca"/>
+                  <path d="M62 148 L66 170 Q80 174 94 170 L98 148" fill="url(#cupGradient)" stroke="#d4c4b5" stroke-width="1"/>
+                  <ellipse cx="80" cy="148" rx="16" ry="3" fill="#fffaf5"/>
+
+                  <!-- Espresso in cup -->
+                  <ellipse cx="80" cy="154" rx="12" ry="2.5" fill="url(#espressoLiquid)"/>
+                  <ellipse cx="80" cy="153" rx="10" ry="2" fill="#a67c52" opacity="0.6"/>
+
+                  <!-- Cup handle -->
+                  <path d="M98 152 Q108 152 108 160 Q108 168 98 168" fill="none" stroke="#e0d5ca" stroke-width="4" stroke-linecap="round"/>
+
+                  <!-- Steam wisps -->
+                  <g class="machine-steam">
+                    <path class="steam-wisp steam-1" d="M75 140 Q72 132 76 124" fill="none" stroke="#c9b8a8" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+                    <path class="steam-wisp steam-2" d="M80 138 Q78 128 82 120" fill="none" stroke="#c9b8a8" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+                    <path class="steam-wisp steam-3" d="M85 140 Q88 130 84 122" fill="none" stroke="#c9b8a8" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+                  </g>
+
+                  <!-- Highlight accents -->
+                  <rect x="24" y="24" width="60" height="2" rx="1" fill="#fff" opacity="0.3"/>
+                  <circle cx="120" cy="46" r="3" fill="#fff" opacity="0.4"/>
                 </svg>
               </div>
             </div>
@@ -195,14 +279,61 @@
 
       <div class="form-block">
         <div class="form-label">Milk Frothing</div>
-        <div class="pill-group segmented-control milk-frothing-group" role="radiogroup" aria-label="Milk Frothing">
+        <div class="milk-frothing-grid" role="radiogroup" aria-label="Milk Frothing">
           <input class="pill-input" type="radio" name="milk-frothing" id="milk-frothing-steam" value="steam" checked />
-          <label class="pill-option" for="milk-frothing-steam"><span>Steam Wand</span></label>
-          <input class="pill-input" type="radio" name="milk-frothing" id="milk-frothing-frother" value="frother" />
-          <label class="pill-option" for="milk-frothing-frother"><span>Frother</span></label>
+          <label class="milk-option" for="milk-frothing-steam">
+            <svg class="milk-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 20h8M12 16v4M7 8c-1 2 0 4 1 6h8c1-2 2-4 1-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M9 4c0 2 1 3 1 4M12 3c0 2 1 3 1 4M15 4c0 2 1 3 1 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+            </svg>
+            <span>Steam Wand</span>
+          </label>
+          <input class="pill-input" type="radio" name="milk-frothing" id="milk-frothing-panarello" value="panarello" />
+          <label class="milk-option" for="milk-frothing-panarello">
+            <svg class="milk-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="10" y="4" width="4" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="12" cy="19" r="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M9 8h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span>Panarello</span>
+          </label>
+          <input class="pill-input" type="radio" name="milk-frothing" id="milk-frothing-carafe" value="carafe" />
+          <label class="milk-option" for="milk-frothing-carafe">
+            <svg class="milk-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 6h10l-1 14H8L7 6z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M7 6c0-2 2-3 5-3s5 1 5 3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M17 10h2a2 2 0 010 4h-2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span>Auto Carafe</span>
+          </label>
+          <input class="pill-input" type="radio" name="milk-frothing" id="milk-frothing-cappuccinatore" value="cappuccinatore" />
+          <label class="milk-option" for="milk-frothing-cappuccinatore">
+            <svg class="milk-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="8" y="10" width="8" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M12 10V4M10 4h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M10 14h4M10 17h4" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+            </svg>
+            <span>Cappuccinatore</span>
+          </label>
+          <input class="pill-input" type="radio" name="milk-frothing" id="milk-frothing-manual" value="manual" />
+          <label class="milk-option" for="milk-frothing-manual">
+            <svg class="milk-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="7" y="8" width="10" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M12 4v4M10 6h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="12" cy="14" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+            </svg>
+            <span>Manual Frother</span>
+          </label>
           <input class="pill-input" type="radio" name="milk-frothing" id="milk-frothing-none" value="none" />
-          <label class="pill-option" for="milk-frothing-none">None</label>
+          <label class="milk-option" for="milk-frothing-none">
+            <svg class="milk-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M7 17L17 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span>None</span>
+          </label>
         </div>
+        <div class="helper-text">Select how your machine froths milk.</div>
       </div>
 
       <div class="form-block">
